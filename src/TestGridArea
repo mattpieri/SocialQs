@@ -1,0 +1,45 @@
+const Nav = styled.nav`
+background-color: blue;
+grid-area: nav;
+`;
+const AsideLeft = styled.aside`
+background-color: red;
+
+  grid-area: asideLeft;
+`;
+const AsideRight = styled.aside`
+background-color: orange;
+
+  grid-area: asideRight;
+`;
+const Main = styled.main`
+background-color: purple;
+
+  grid-area: main;
+`;
+const Footer = styled.footer`
+background-color: pink;
+  
+  grid-area: footer;
+`;
+
+${media.lessThan("medium")`
+    /* screen width is less than 768px (medium) */
+    grid-template-areas:
+      "nav nav"
+      "space channelheader"
+      "space categorywheel"
+      "space cards";
+    grid-template-rows:  1fr 4fr 4fr 15fr;
+    grid-template-columns: 1fr 1000fr;
+  `}
+  ${media.greaterThan("medium")`
+    /* screen width is greater than 1170px (large) */
+    grid-template-areas:
+      "nav nav nav"
+      "channels channelheader space"
+      "channels categorywheel space"
+      "channels cards space";
+    grid-template-rows:  1fr 4fr 4fr 15fr;
+    grid-template-columns: 1fr 4fr 1fr;
+  `}
