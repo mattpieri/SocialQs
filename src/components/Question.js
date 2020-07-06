@@ -1,27 +1,27 @@
 
-
 import React from 'react'
 import styled from 'styled-components'
 import triviaChannels from '../configs/triviaChannels.json'
-const ChannelWrapper = styled.div`
-grid-area: channels;
-background-color: #25262B;
-color: white;
-font-size: 2em;
-display: flex;
-flex-wrap: nowrap;
-justify-content: flex-start;
-flex-direction: column;
+const QuestionWrapper = styled.div`
+    color: white;
+    font-size: 2em;
+    display: grid;
+    grid-template-rows: 1fr 2fr 2fr 10fr auto;
+    height: 600px;
 `;
 
+//display: flex;
+   // flex-wrap: nowrap;
+    //justify-content: flex-start;
+    //flex-direction: column;
 const Text = styled.div`
     font-size: 20px;
     border-radius: 0px 25px 25px 0px;
     color: white;
     font-family: Arial;
-    padding: 7px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding: 15px;
+    text-align: center;
+
     &:hover {
         background: #95989A; // <Thing> when hovered
     }
@@ -32,7 +32,7 @@ const Text = styled.div`
 
 
 
-export default class Channels extends React.Component {
+export default class Questions extends React.Component {
     handleChange(e){
         
         const value = e.target.id;
@@ -40,22 +40,28 @@ export default class Channels extends React.Component {
         this.props.update(value);
     }
 
+    handleClose(e){
+        this.props.handleClose();
+    }
+
     render() {
         return(
-
-            <ChannelWrapper>
-                <br></br>
-                <Text >Your Trivia</Text>
-                <Text>Explore Trivia</Text>
+            <QuestionWrapper>
+                <Text>Progress</Text>
+                <Text>Question 1/10</Text>
+                <Text>{this.props.Game}</Text>
+                {console.log(this.props.Games)}
+                
                 <Text>Create Trivia</Text>
-                <br></br>
-                {triviaChannels.Channels.map((channel)=> 
+                <Text onClick={this.handleClose.bind(this)}>Close</Text>
+                {/*this.props.Games.map((games,questions)=> 
+                    
                     <Text 
                         onClick={this.handleChange.bind(this)}
                         id={channel}
                     >{channel}</Text>
-                )}
-            </ChannelWrapper>
+                )*/}
+            </QuestionWrapper>
             );
         };
 };

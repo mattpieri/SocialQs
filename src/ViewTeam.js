@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components'
 import media from "styled-media-query";
-//import Channels from './components/Channels';
-import {ChannelHeader} from './components/ChannelHeader';
-import {CategoryWheel} from './components/CategoryWheel';
-import {Channels} from './components/Channels';
-import {GameCard}  from './components/GameCard';
+import ChannelHeader from './components/ChannelHeader';
+import CategoryWheel from './components/CategoryWheel';
+import Channels from './components/Channels';
+import GameCard  from './components/GameCard';
+import Questions  from './components/Question';
 import Media from "react-media";
+import ReactModal from "react-modal";
+import styles from './styles/Modal.css'; 
+
 const MyNav = styled.div`
   font-size: 2em;
   grid-area: nav;
@@ -18,14 +21,11 @@ const MyNav = styled.div`
   color: white;
   order: 1;
 `;  
-//order: 1;
-
 const Space = styled.div` 
   grid-area: space;
   background: #25262B;
   
 `; 
-
 const GridLayout = styled.div`
   height: 100vh;
   display: grid;
@@ -52,21 +52,72 @@ const GridLayout = styled.div`
 `;
 
 
-export const ViewTeam = ()  => (
-<div> 
-    <GridLayout >
-    <MyNav>Alexa's Social Qs</MyNav>
-    <Media query="(min-width: 768px)" render={() =>
-          (
-            <Channels></Channels>
-          )}
-    />
-    <ChannelHeader></ChannelHeader>
-    <CategoryWheel></CategoryWheel>
-    <GameCard></GameCard>
-    <Space></Space>
-          </GridLayout>
-  </div> 
-);
+export default class ViewTeam extends React.Component {
 
+  constructor() {
+    super();
+    this.apiTransactions = 'https://rcbnv6ut12.execute-api.us-east-1.amazonaws.com/test/transactions';
+    this.state = {
+        Games: [],// { game: 'game1', questions: ['What is my name']}, { game: 'game2', questions: ['good', 'test']} ]
+        Channel: 'General',
+        showModal: false,
+        Game: null,
+    };
+    //this.games = [ { game: 'game1', questions: ['What is my name']}, { game: 'game2', questions: ['good', 'test']} ]
+    //Array.prototype.forEach.call(this.games, game => this.state[game] = false )
+    this.getGames.bind(this)
+    this.getGames()
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);          
+  }
+  
+  changeChannel(Channel){
+    this.setState({Channel:Channel})
+  }
+
+  changeGame(Game){
+    this.setState({Game:Game})
+    this.handleOpenModal()
+  }
+
+  getGames = async () => {
+    fetch( 'https://rcbnv6ut12.execute-api.us-east-1.amazonaws.com/test/games')
+    .then(res=>res.json())
+    .then(res => this.setState({Games:res}));
+  }
+  
+  handleOpenModal () {
+    this.setState({ showModal: true });
+  }
+  
+  handleCloseModal () {
+    this.setState({ showModal: false });
+  }
+
+  render() {
+    return(
+      <div> 
+        <ReactModal 
+          isOpen={this.state.showModal}
+          contentLabel="Minimal Modal Example"
+          className="Modal"
+          overlayClassName="Overlay"
+          disableAutoFocus={true}
+        >
+          <Questions handleClose={this.handleCloseModal} Games={this.state.Games} Game={this.state.Game}></Questions>
+        </ReactModal>
+        <GridLayout >
+          <MyNav>Alexa's Social Qs</MyNav>
+          <Media query="(min-width: 768px)" render={() =>
+                (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
+          <ChannelHeader Title={this.state.Channel}></ChannelHeader>
+          <CategoryWheel Channel={this.state.Channel}></CategoryWheel>
+          <GameCard Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
+          <Space></Space>
+        </GridLayout>
+      </div>
+      
+    );
+  };
+};
 

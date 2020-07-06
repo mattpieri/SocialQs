@@ -12,7 +12,7 @@ const ControlButton = styled.div`
     color: white;
     font-family: Arial;
     font-weight: bold;
-
+    
 `;
 
 const AppLayout = styled.div`
@@ -25,10 +25,16 @@ const AppLayout = styled.div`
 `;
 //    grid-row:2;
 //grid-column:2;
-export const ChannelHeader = () => (
-    <AppLayout>
-        <ControlButton>
-            Entertainment
-        </ControlButton>        
-    </AppLayout>
-)
+
+export default class ChannelHeader extends React.Component {
+    render() {
+        return(
+
+            <AppLayout>
+                <ControlButton>
+                    {this.props.Title}
+                </ControlButton>        
+            </AppLayout>
+            );
+        };
+};

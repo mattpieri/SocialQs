@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import media from "styled-media-query";
-
+import triviaChannels from '../configs/triviaChannels.json'
 
 const AppLayout = styled.div`
     grid-area: categorywheel;
@@ -26,19 +26,22 @@ const Text = styled.div`
 
     font-size: 2em;
     color: white;
-    font-family: Arial;
+    font-family: Arial; 
     text-align: center;
     padding: 20px;
 
 `;
  
-export const CategoryWheel = () => (
-    <AppLayout>
-        <Text>Latest</Text>
-        <Text>Film</Text>
-        <Text>TV</Text>
-        <Text>Books</Text>
-        <Text>Internet</Text>
-        <Text>Music</Text>}
-    </AppLayout>
-)
+export default class CategoryWheel extends React.Component {
+    render() {
+        return(
+            <AppLayout>
+                {triviaChannels[this.props.Channel].map((station)=> 
+                    <Text 
+                        id={station}
+                    >{station}</Text>
+                )}                
+            </AppLayout>
+            );
+        };
+};

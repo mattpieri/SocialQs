@@ -1,0 +1,15 @@
+
+{
+    "Channels": ["General", "Entertainment", "Nature", "Sports", 
+        "Technology", "Business", "Science", "History", "World" ],
+
+    "General": [ "Latest", "Random", "Weird", "Cool", "Funny" ],
+    "Entertainment": [ "Latest", "Film", "TV", "Books", "Music", "Internet"],
+    "Nature": [ "Outdoors", "Go", "Outside", "You", "Loser"],
+    "Sports": [ "NFL", "NBA", "NHL", "MLB", "UFC", "Golf", "Cricket"],
+    "Technology": [ "Computers", "Robotics", "Nerd"],
+    "Business": [ "Finance", "Stonks" ],
+    "History": [ "George Washington Yo" ],
+    "Science": [ "Bugs" ],
+    "World": [ "New Zealand" ]
+}
