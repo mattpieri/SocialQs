@@ -127,7 +127,7 @@ const Slider = styled.div`
     background:#25262B;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x:scroll;
+    overflow-x:hidden;
     padding: 5px;
     justify-content: flex-start;
     &::-webkit-scrollbar {
