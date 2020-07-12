@@ -16,7 +16,7 @@ const CardsLayout = styled.div`
         scroll-snap-align: center;
     `}
 `;
-
+////////////////////FIX HEIGHT HACK
 const CardLayout = styled.div`
     border-radius: 25px;
     display:grid;
@@ -29,7 +29,7 @@ const CardLayout = styled.div`
         width: 270px;
         height: 270px;
     `}
-    margin: 20px;
+    margin: 100px;
     box-shadow: 0 8px 12px 0 black, 0 10px 25px 0 black;
 `;
 //background-color: #f1f1f1;

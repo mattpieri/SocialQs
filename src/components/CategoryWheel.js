@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import media from "styled-media-query";
 import triviaChannels from '../configs/triviaChannels.json'
+import ReactDOM from 'react-dom'
 
 const AppLayout = styled.div`
     grid-area: categorywheel;
@@ -28,7 +29,7 @@ const AppLayout = styled.div`
      border-bottom: 1px solid white;
      
 `;
- 
+ //
 const Text = styled.div`
 
     font-size: 2em;
@@ -46,21 +47,28 @@ export default class CategoryWheel extends React.Component {
     constructor(props) {
         super(props);
         this.scroll = this.scroll.bind(this);
+        this.changeFocus = this.changeFocus.bind(this);
+        this.state = {
+            focusIndex: 0,
+            Categories: [],
+        };
+        this.parentRef = React.createRef();
       }
 
-    scroll( e, prevIndex, newIndex, channels ) {
-        let element = e.refs.child1;
-        
-        let x = element.scrollWidth/channels.length;
+    scroll( newIndex ) {
+        let element = this.parentRef.current;
+        //let element = ReactDOM.findDOMNode(e.target).parentNode;
+        //console.log( element.innerHTML)
+        console.log( "Start"+ element.scrollLeft)
+        console.log( "Start"+ element.scrollWidth)
+        console.log( "Start"+ element.id)
 
-        /*let change = x;
-        if( prevIndex >  newIndex){
-            change = -1 * x;
-        } */
+        let x = element.scrollWidth/element.id; //channels.length;
         let duration = 300;
-        let destition = newIndex * ( x + 10 );
-        let change =  ( destition - element.scrollLeft ) - x;
+        let destition = newIndex * x ;
+        let change =  ( destition - element.scrollLeft ) - ( x * 2 - 60 );
 
+        console.log( element)
         console.log( "Start"+ element.scrollLeft)
         console.log( "Change"+ change)
 
@@ -85,19 +93,46 @@ export default class CategoryWheel extends React.Component {
         animateScroll();
     }
     
+
+
     componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
-        if (this.props.focusIndex !== prevProps.focusIndex) {
-            this.scroll(this, prevProps.focusIndex, this.props.focusIndex, this.props.Channel);
+        //if (this.props.focusIndex !== prevProps.focusIndex) {
+            //this.scroll(this, prevProps.focusIndex, this.props.focusIndex, this.props.Channel);
+        //}
+        if (this.props.Channel !== prevProps.Channel) {
+            
+            //this.scroll(this, prevProps.focusIndex, this.props.focusIndex, this.props.Channel);
         }
       }
     
+    changeFocus(focusIndex){
+        this.setState({focusIndex:focusIndex})
+    }
+
+    changeFocus(focusIndex){
+        this.setState({focusIndex:focusIndex})
+    }
+    
+    handleChange(e){
+        const value = e.target.id;
+        console.log("FOCUS INDEX" + value);
+        this.changeFocus(value);
+        this.scroll(value);
+    }
+
+    
+
     render() {
         return(
-            <AppLayout ref='child1' focusIndex = {this.props.focusIndex}>
-                {triviaChannels[this.props.Channel].map((station)=> 
-                    <Text
-                        id={station}
+            <AppLayout ref={this.parentRef} 
+                    focusIndex ={this.state.focusIndex}
+                    id={triviaChannels[this.props.Channel].length}
+                >
+                {triviaChannels[this.props.Channel].map((station, index)=> 
+                    <Text 
+                        onClick={this.handleChange.bind(this)}
+                        id={index+1}
                     >{station}</Text>
                 )}                
             </AppLayout>
