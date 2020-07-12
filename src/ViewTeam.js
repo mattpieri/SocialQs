@@ -29,6 +29,7 @@ const Space = styled.div`
 const GridLayout = styled.div`
   height: 100vh;
   display: grid;
+  background-color: #25262B;
   ${media.lessThan("medium")`
     /* screen width is less than 768px (medium) */
     grid-template-areas:
@@ -50,7 +51,7 @@ const GridLayout = styled.div`
     grid-template-columns: 1fr 4fr 1fr;
   `}
 `;
-
+///change background color of gridlayout for debugging
 
 export default class ViewTeam extends React.Component {
 
@@ -62,6 +63,7 @@ export default class ViewTeam extends React.Component {
         Channel: 'General',
         showModal: false,
         Game: null,
+        ScrollIndex: 0,
     };
     //this.games = [ { game: 'game1', questions: ['What is my name']}, { game: 'game2', questions: ['good', 'test']} ]
     //Array.prototype.forEach.call(this.games, game => this.state[game] = false )
@@ -78,6 +80,11 @@ export default class ViewTeam extends React.Component {
   changeGame(Game){
     this.setState({Game:Game})
     this.handleOpenModal()
+  }
+  
+  changeScrollIndex(ScrollIndex){
+    this.setState({ScrollIndex:ScrollIndex})
+    //console.log('Scroll ' + ScrollIndex)
   }
 
   getGames = async () => {
@@ -111,8 +118,8 @@ export default class ViewTeam extends React.Component {
           <Media query="(min-width: 768px)" render={() =>
                 (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
           <ChannelHeader Title={this.state.Channel}></ChannelHeader>
-          <CategoryWheel Channel={this.state.Channel}></CategoryWheel>
-          <GameCard Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
+          <CategoryWheel focusIndex={this.state.ScrollIndex}  Channel={this.state.Channel}></CategoryWheel>
+          <GameCard updateScrollIndex={this.changeScrollIndex.bind(this)} Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
           <Space></Space>
         </GridLayout>
       </div>
@@ -121,3 +128,4 @@ export default class ViewTeam extends React.Component {
   };
 };
 
+//{this.state.ScrollIndex}

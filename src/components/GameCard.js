@@ -4,13 +4,17 @@ import styled from 'styled-components'
 import media from "styled-media-query";
 import myImage from "../assets/images/images.png";
 import triviaChannels from "../configs/triviaChannels.json"
+import ReactDOM from 'react-dom';
 
 const CardsLayout = styled.div`
-    grid-area: cards;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     background:#25262B; 
+    height:2000px;
+    ${media.lessThan("medium")`
+        scroll-snap-align: center;
+    `}
 `;
 
 const CardLayout = styled.div`
@@ -18,8 +22,8 @@ const CardLayout = styled.div`
     display:grid;
     grid-template-rows: 4fr 1fr;
     ${media.lessThan("medium")`
-        width: 400px;
-        height: 400px;
+        width: 325px;
+        height: 325px;
     `}
     ${media.greaterThan("medium")`
         width: 270px;
@@ -99,9 +103,80 @@ const Cards = ({game, questions}) => (
         <Botton>Explore #{game} Trivia</Botton>
     </CardLayout>
 );
+/*
+const AppLayout = styled.div`
+    grid-area: categorywheel;
+    background-color: #25262B; 
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x:scroll;
+    ${media.lessThan("medium")`
+        justify-content: flex-start;
+    `}
+    ${media.greaterThan("medium")`
+        justify-content: center;
+    `}
+    &::-webkit-scrollbar {
+        width: 0px;
+     }
+`;*/
+
+const Slider = styled.div`
+    scroll-snap-type: x mandatory;
+    grid-area: cards;   
+    background:#25262B;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x:scroll;
+    padding: 5px;
+    justify-content: flex-start;
+    &::-webkit-scrollbar {
+        width: 0px;
+     }
+`;
+
 
 export default class GameCard extends React.Component {
-   
+    constructor(props) {
+        super(props);
+        this.state = {
+            OverScrollIndex: 0,
+            Categoies: 3,
+        };
+
+        this._fireOnScroll = this.fireOnScroll.bind(this);
+
+      }
+    
+    fireOnScroll(e) {
+        for(var i=0;i < this.state.Categoies;i++)
+        {
+            let Bottom = i/this.state.Categoies-.05;
+            let Top    =  i/this.state.Categoies+.05;
+            let x = e.target.scrollLeft/e.target.scrollWidth;
+            if( Bottom < x && x < Top)
+                this.state.OverScrollIndex = i;
+        }
+        this.props.updateScrollIndex(this.state.OverScrollIndex+1 );
+
+        //console.log('Scroll ' + ScrollIndex)
+
+        //console.log(e.target.scrollLeft);
+        //console.log(e.target.scrollWidth);
+        //console.log(e.target.scrollLeft/e.target.scrollWidth);
+        //console.log(this.state.OverScrollIndex);
+    }
+    //scrollWidth
+    componentDidMount() {
+        const elem = ReactDOM.findDOMNode(this.refs.elementToFire);
+        elem.addEventListener('scroll', this._fireOnScroll, true);
+    }
+    
+    componentWillUnmount() {
+        const elem = ReactDOM.findDOMNode(this.refs.elementToFire);
+        elem.removeEventListener('scroll', this._fireOnScroll);
+    }
+
     handleChange(e){
         
         const value = e.target.id;
@@ -109,27 +184,74 @@ export default class GameCard extends React.Component {
         this.props.update(value);
     }
 
+    handleScroll(e){
+        
+        //const value = e.target.id;
+        console.log("asdfa");
+        //this.props.update(value);
+    }
+
     render() {
         return(
-            <CardsLayout>
-                {this.props.Games.map(({game, questions})=> 
-                    <CardLayout id={game} onClick={this.handleChange.bind(this)}>
-                        <TopImage id={game}>
-                        <Top id={game}>
-                            <Space id={game}></Space>
-                            <CardTitle id={game}>{game}</CardTitle>
-                            <CardDetailsLayout id={game}>
-                                <CardDetail id={game}>Plays 2.2M</CardDetail>
-                                <CardDetail id={game}>Q's 23</CardDetail>
-                                <CardDetail id={game}>Like 23k</CardDetail>
-                                <CardDetail id={game}>#12321</CardDetail>
-                            </CardDetailsLayout >
-                        </Top>
-                        </TopImage>
-                        <Botton id={game}>Explore #{game} Trivia</Botton>
-                    </CardLayout>
-                )}
-            </CardsLayout>
+            <Slider ref="elementToFire" >
+                <CardsLayout >
+                    {this.props.Games.map(({game, questions})=> 
+                        <CardLayout id={game} onClick={this.handleChange.bind(this)}>
+                            <TopImage id={game}>
+                            <Top id={game}>
+                                <Space id={game}></Space>
+                                <CardTitle id={game}>{game}</CardTitle>
+                                <CardDetailsLayout id={game}>
+                                    <CardDetail id={game}>Plays 2.2M</CardDetail>
+                                    <CardDetail id={game}>Q's 23</CardDetail>
+                                    <CardDetail id={game}>Like 23k</CardDetail>
+                                    <CardDetail id={game}>#12321</CardDetail>
+                                </CardDetailsLayout >
+                            </Top>
+                            </TopImage>
+                            <Botton id={game}>Explore #{game} Trivia</Botton>
+                        </CardLayout>
+                    )}
+                </CardsLayout>
+                <CardsLayout>
+                    {this.props.Games.map(({game, questions})=> 
+                        <CardLayout id={game} onClick={this.handleChange.bind(this)}>
+                            <TopImage id={game}>
+                            <Top id={game}>
+                                <Space id={game}></Space>
+                                <CardTitle id={game}>{game}</CardTitle>
+                                <CardDetailsLayout id={game}>
+                                    <CardDetail id={game}>Plays 2.2M</CardDetail>
+                                    <CardDetail id={game}>Q's 23</CardDetail>
+                                    <CardDetail id={game}>Like 23k</CardDetail>
+                                    <CardDetail id={game}>#12321</CardDetail>
+                                </CardDetailsLayout >
+                            </Top>
+                            </TopImage>
+                            <Botton id={game}>Explore #{game} Trivia</Botton>
+                        </CardLayout>
+                    )}
+                </CardsLayout>
+                <CardsLayout>
+                    {this.props.Games.map(({game, questions})=> 
+                        <CardLayout id={game} onClick={this.handleChange.bind(this)}>
+                            <TopImage id={game}>
+                            <Top id={game}>
+                                <Space id={game}></Space>
+                                <CardTitle id={game}>{game}</CardTitle>
+                                <CardDetailsLayout id={game}>
+                                    <CardDetail id={game}>Plays 2.2M</CardDetail>
+                                    <CardDetail id={game}>Q's 23</CardDetail>
+                                    <CardDetail id={game}>Like 23k</CardDetail>
+                                    <CardDetail id={game}>#12321</CardDetail>
+                                </CardDetailsLayout >
+                            </Top>
+                            </TopImage>
+                            <Botton id={game}>Explore #{game} Trivia</Botton>
+                        </CardLayout>
+                    )}
+                </CardsLayout>
+            </Slider>
             );
         };
 };

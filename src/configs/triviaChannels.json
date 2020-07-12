@@ -1,8 +1,8 @@
 
 {
-    "Channels": ["General", "Entertainment", "Nature", "Sports", 
+    "Channels": [ "Your Trivia", "General", "Entertainment", "Nature", "Sports", 
         "Technology", "Business", "Science", "History", "World" ],
-
+    "Your Trivia" : [ "Recent", "Created", "Liked" ],
     "General": [ "Latest", "Random", "Weird", "Cool", "Funny" ],
     "Entertainment": [ "Latest", "Film", "TV", "Books", "Music", "Internet"],
     "Nature": [ "Outdoors", "Go", "Outside", "You", "Loser"],
@@ -11,5 +11,5 @@
     "Business": [ "Finance", "Stonks" ],
     "History": [ "George Washington Yo" ],
     "Science": [ "Bugs" ],
-    "World": [ "New Zealand" ]
+    "World": [ "New Zealand", "Wantagh" ]
 }
