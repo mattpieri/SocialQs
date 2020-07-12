@@ -118,8 +118,8 @@ export default class ViewTeam extends React.Component {
           <Media query="(min-width: 768px)" render={() =>
                 (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
           <ChannelHeader Title={this.state.Channel}></ChannelHeader>
-          <CategoryWheel focusIndex={this.state.ScrollIndex}  Channel={this.state.Channel}></CategoryWheel>
-          <GameCard updateScrollIndex={this.changeScrollIndex.bind(this)} Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
+          <CategoryWheel updateScrollIndex={this.changeScrollIndex.bind(this)} Channel={this.state.Channel}></CategoryWheel>
+          <GameCard focusIndex={this.state.ScrollIndex}  Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
           <Space></Space>
         </GridLayout>
       </div>
@@ -129,3 +129,6 @@ export default class ViewTeam extends React.Component {
 };
 
 //{this.state.ScrollIndex}
+//<CategoryWheel focusIndex={this.state.ScrollIndex}  Channel={this.state.Channel}></CategoryWheel>
+//          <GameCard focusIndex={0} updateScrollIndex={this.changeScrollIndex.bind(this)} Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
+          

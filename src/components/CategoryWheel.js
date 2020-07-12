@@ -59,18 +59,10 @@ export default class CategoryWheel extends React.Component {
         let element = this.parentRef.current;
         //let element = ReactDOM.findDOMNode(e.target).parentNode;
         //console.log( element.innerHTML)
-        console.log( "Start"+ element.scrollLeft)
-        console.log( "Start"+ element.scrollWidth)
-        console.log( "Start"+ element.id)
-
         let x = element.scrollWidth/element.id; //channels.length;
         let duration = 300;
         let destition = newIndex * x ;
         let change =  ( destition - element.scrollLeft ) - ( x * 2 - 60 );
-
-        console.log( element)
-        console.log( "Start"+ element.scrollLeft)
-        console.log( "Change"+ change)
 
         var easeInOutQuad = function (t, b, c, d) {
             t /= d/2;
@@ -116,12 +108,10 @@ export default class CategoryWheel extends React.Component {
     
     handleChange(e){
         const value = e.target.id;
-        console.log("FOCUS INDEX" + value);
         this.changeFocus(value);
+        this.props.updateScrollIndex(value);
         this.scroll(value);
     }
-
-    
 
     render() {
         return(

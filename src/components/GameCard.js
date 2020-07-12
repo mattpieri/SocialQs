@@ -12,10 +12,11 @@ const CardsLayout = styled.div`
     justify-content: center;
     background:#25262B; 
     height:2000px;
-    ${media.lessThan("medium")`
-        scroll-snap-align: center;
-    `}
+    
 `;
+//${media.lessThan("medium")`
+//        scroll-snap-align: center;
+//`}
 ////////////////////FIX HEIGHT HACK
 const CardLayout = styled.div`
     border-radius: 25px;
@@ -29,7 +30,7 @@ const CardLayout = styled.div`
         width: 270px;
         height: 270px;
     `}
-    margin: 100px;
+    margin: 20px;
     box-shadow: 0 8px 12px 0 black, 0 10px 25px 0 black;
 `;
 //background-color: #f1f1f1;
@@ -122,7 +123,6 @@ const AppLayout = styled.div`
 `;*/
 
 const Slider = styled.div`
-    scroll-snap-type: x mandatory;
     grid-area: cards;   
     background:#25262B;
     display: flex;
@@ -134,7 +134,7 @@ const Slider = styled.div`
         width: 0px;
      }
 `;
-
+//scroll-snap-type: x mandatory;
 
 export default class GameCard extends React.Component {
     constructor(props) {
@@ -143,11 +143,10 @@ export default class GameCard extends React.Component {
             OverScrollIndex: 0,
             Categoies: 3,
         };
-
-        this._fireOnScroll = this.fireOnScroll.bind(this);
-
+        //this._fireOnScroll = this.fireOnScroll.bind(this);
+        this.scrollerRef = React.createRef();
       }
-    
+    /*
     fireOnScroll(e) {
         for(var i=0;i < this.state.Categoies;i++)
         {
@@ -157,7 +156,7 @@ export default class GameCard extends React.Component {
             if( Bottom < x && x < Top)
                 this.state.OverScrollIndex = i;
         }
-        this.props.updateScrollIndex(this.state.OverScrollIndex+1 );
+        //this.props.updateScrollIndex(this.state.OverScrollIndex+1 );
 
         //console.log('Scroll ' + ScrollIndex)
 
@@ -175,7 +174,7 @@ export default class GameCard extends React.Component {
     componentWillUnmount() {
         const elem = ReactDOM.findDOMNode(this.refs.elementToFire);
         elem.removeEventListener('scroll', this._fireOnScroll);
-    }
+    }*/
 
     handleChange(e){
         
@@ -191,9 +190,55 @@ export default class GameCard extends React.Component {
         //this.props.update(value);
     }
 
+    scroll( newIndex ) {
+        let element = this.scrollerRef.current;
+        //let element = ReactDOM.findDOMNode(e.target).parentNode;
+        //console.log( element.innerHTML)
+        //console.log( "Start"+ element.scrollLeft)
+        //console.log( "Start"+ element.scrollWidth)
+        //console.log( "Start"+ element.id)
+
+        let x = element.scrollWidth/element.id; //channels.length;
+        let duration = 300;
+        let destition = newIndex * x ;
+        let change =  ( destition - element.scrollLeft ) - ( x );
+
+        console.log( element)
+        console.log( "Start"+ element.scrollLeft)
+        console.log( "Change"+ change)
+
+        var easeInOutQuad = function (t, b, c, d) {
+            t /= d/2;
+              if (t < 1) return c/2*t*t + b;
+              t--;
+              return -c/2 * (t*(t-2) - 1) + b;
+        };
+        var start = element.scrollLeft,
+            currentTime = 0,
+            increment = 20;
+            
+        var animateScroll = function(){        
+            currentTime += increment;
+            var val = easeInOutQuad(currentTime, start, change, duration);
+            element.scrollLeft = val;
+            if(currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+        animateScroll();
+    }
+
+    componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.focusIndex !== prevProps.focusIndex) {
+            console.log("NEW SCROLL INDEX"+ this.props.focusIndex )
+            this.scroll(this.props.focusIndex);
+        }
+    }
+
     render() {
         return(
-            <Slider ref="elementToFire" >
+            <Slider ref="elementToFire" ref={this.scrollerRef} id={this.state.Categoies} >
                 <CardsLayout >
                     {this.props.Games.map(({game, questions})=> 
                         <CardLayout id={game} onClick={this.handleChange.bind(this)}>
