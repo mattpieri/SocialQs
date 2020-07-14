@@ -20,3 +20,30 @@
     outline: none;
     
   }
+
+
+  @keyframes modalFade {
+    from {transform: translateX(-50%);opacity: 1;}
+    to {transform: translateX(0);opacity: 1;}
+  }
+  
+  .MenuModal {
+    position: absolute;
+    height: 100vh;
+    width: 50%;
+    background-color: #353A3E;
+    outline: none;
+    animation-name: modalFade;
+    animation-duration: .6s;
+  }
+
+  .MenuOverlay {
+    margin-top:64px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    outline: none;
+  }

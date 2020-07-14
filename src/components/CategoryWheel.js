@@ -49,7 +49,7 @@ export default class CategoryWheel extends React.Component {
         this.scroll = this.scroll.bind(this);
         this.changeFocus = this.changeFocus.bind(this);
         this.state = {
-            focusIndex: 0,
+            focusIndex: 1,
             Categories: [],
         };
         this.parentRef = React.createRef();

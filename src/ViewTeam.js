@@ -6,21 +6,12 @@ import CategoryWheel from './components/CategoryWheel';
 import Channels from './components/Channels';
 import GameCard  from './components/GameCard';
 import Questions  from './components/Question';
+import MyNavTest  from './components/MyNav';
 import Media from "react-media";
 import ReactModal from "react-modal";
 import styles from './styles/Modal.css'; 
 
-const MyNav = styled.div`
-  font-size: 2em;
-  grid-area: nav;
-  grid-column: 1/4;
-  grid-row: 1;
-  background: #353A3E;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 20px;
-  color: white;
-  order: 1;
-`;  
+
 const Space = styled.div` 
   grid-area: space;
   background: #25262B;
@@ -62,6 +53,7 @@ export default class ViewTeam extends React.Component {
         Games: [],// { game: 'game1', questions: ['What is my name']}, { game: 'game2', questions: ['good', 'test']} ]
         Channel: 'General',
         showModal: false,
+        showMenuModal: false,
         Game: null,
         ScrollIndex: 0,
     };
@@ -69,12 +61,15 @@ export default class ViewTeam extends React.Component {
     //Array.prototype.forEach.call(this.games, game => this.state[game] = false )
     this.getGames.bind(this)
     this.getGames()
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);          
+    this.handleOpenModal  = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);  
+    this.closeMenuModal  = this.closeMenuModal.bind(this)
+
   }
   
   changeChannel(Channel){
     this.setState({Channel:Channel})
+    //this.setState({ showMenuModal: false });
   }
 
   changeGame(Game){
@@ -93,6 +88,14 @@ export default class ViewTeam extends React.Component {
     .then(res => this.setState({Games:res}));
   }
   
+  openMenuModal () {
+    this.setState({ showMenuModal: true });
+  }
+
+  closeMenuModal () {
+    this.setState({ showMenuModal: false });
+  }
+
   handleOpenModal () {
     this.setState({ showModal: true });
   }
@@ -113,10 +116,18 @@ export default class ViewTeam extends React.Component {
         >
           <Questions handleClose={this.handleCloseModal} Games={this.state.Games} Game={this.state.Game}></Questions>
         </ReactModal>
+        <ReactModal 
+          isOpen={this.state.showMenuModal}
+          contentLabel="Minimal Modal Example"
+          className="MenuModal"
+          overlayClassName="MenuOverlay"
+          disableAutoFocus={true}
+        >
+          <Channels handleClose={this.closeMenuModal} update={this.changeChannel.bind(this)}></Channels>)
+        </ReactModal>
         <GridLayout >
-          <MyNav>Alexa's Social Qs</MyNav>
-          <Media query="(min-width: 768px)" render={() =>
-                (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
+          <MyNavTest update={this.openMenuModal.bind(this)} >Alexa's Social Qs</MyNavTest>
+          <Media query="(min-width: 768px)" render={() => (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
           <ChannelHeader Title={this.state.Channel}></ChannelHeader>
           <CategoryWheel updateScrollIndex={this.changeScrollIndex.bind(this)} Channel={this.state.Channel}></CategoryWheel>
           <GameCard focusIndex={this.state.ScrollIndex}  Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
