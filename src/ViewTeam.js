@@ -54,8 +54,9 @@ export default class ViewTeam extends React.Component {
         Channel: 'General',
         showModal: false,
         showMenuModal: false,
-        Game: null,
         ScrollIndex: 0,
+        Game: null,
+        SelectedGameObject: null,
     };
     //this.games = [ { game: 'game1', questions: ['What is my name']}, { game: 'game2', questions: ['good', 'test']} ]
     //Array.prototype.forEach.call(this.games, game => this.state[game] = false )
@@ -63,7 +64,9 @@ export default class ViewTeam extends React.Component {
     this.getGames()
     this.handleOpenModal  = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);  
-    this.closeMenuModal  = this.closeMenuModal.bind(this)
+    this.closeMenuModal  = this.closeMenuModal.bind(this);
+    this.changeGame = this.changeGame.bind(this);
+    this.updatedSelectedGame = this.updatedSelectedGame.bind(this);
 
   }
   
@@ -72,8 +75,20 @@ export default class ViewTeam extends React.Component {
     //this.setState({ showMenuModal: false });
   }
 
+  updatedSelectedGame(SelectedGameObject)
+  {
+    this.setState({SelectedGameObject:SelectedGameObject})
+  };
+
   changeGame(Game){
     this.setState({Game:Game})
+
+    //this.setState({SelectedGameObject:this.state.Games[0]})
+    this.state.Games.map((item) => {
+      if (item['game']===Game) {
+        this.updatedSelectedGame(item)
+      } 
+    });
     this.handleOpenModal()
   }
   
@@ -114,7 +129,7 @@ export default class ViewTeam extends React.Component {
           overlayClassName="Overlay"
           disableAutoFocus={true}
         >
-          <Questions handleClose={this.handleCloseModal} Games={this.state.Games} Game={this.state.Game}></Questions>
+          <Questions handleClose={this.handleCloseModal} Game={this.state.SelectedGameObject}></Questions>
         </ReactModal>
         <ReactModal 
           isOpen={this.state.showMenuModal}
@@ -130,7 +145,7 @@ export default class ViewTeam extends React.Component {
           <Media query="(min-width: 768px)" render={() => (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
           <ChannelHeader Title={this.state.Channel}></ChannelHeader>
           <CategoryWheel updateScrollIndex={this.changeScrollIndex.bind(this)} Channel={this.state.Channel}></CategoryWheel>
-          <GameCard focusIndex={this.state.ScrollIndex}  Games={this.state.Games} update={this.changeGame.bind(this)}></GameCard>
+          <GameCard focusIndex={this.state.ScrollIndex}  Games={this.state.Games} update={this.changeGame}></GameCard>
           <Space></Space>
         </GridLayout>
       </div>
