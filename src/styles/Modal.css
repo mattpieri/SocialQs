@@ -1,27 +1,60 @@
-@keyframes modalFadeX {
-  from {transform: translateX(-50%);opacity: 1;}
-  to {transform: translateX(0);opacity: 1;}
+@-webkit-keyframes zoomX {
+  from {
+    -webkit-transform: translateX(-50%) ;
+  }
+  to {
+    -webkit-transform: translateX(0);
+  }
 }
 
-@keyframes modalFadeY {
-  from {transform: translateY(-50%);opacity: 1;}
-  to {transform: translateY(0);opacity: 1;}
+@keyframes zoomX {
+  from {
+    transform: translateX(-50%); 
+  }
+  to {
+    transform: translateX(0);
+  }
 }
+
+
+@-webkit-keyframes zoomY {
+  from {
+    -webkit-transform: translateY(-50%) ;
+  }
+  to {
+    -webkit-transform: translateY(0);
+  }
+}
+
+@keyframes zoomY {
+  from {
+    transform: translateY(-50%); 
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 
 .Modal {
     margin-left: auto;
     margin-right: auto;
     bottom: 140px;
     border-radius: 25px;
-    width: 80%;
-    margin-top: 10vh;
-    margin-bottom: 10vh;
-    height: 80vh;
+    width: 90%;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+    height: 60vh;
     background-color: #25262B;
     border: 2px solid white;
     outline: none;
-    animation-name: modalFadeY;
-    animation-duration: .6s;
+    /*-webkit-transform: translate(3em,0);*/
+    -webkit-animation-name: zoomY;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoomY;
+    animation-duration: 0.6s;
+    /*animation-name: modalFadeY;
+    animation-duration: .6s;*/
   }
 
   .Overlay {
@@ -43,8 +76,10 @@
     width: 50%;
     background-color: #353A3E;
     outline: none;
-    animation-name: modalFadeX;
-    animation-duration: .6s;
+    -webkit-animation-name: zoomX;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoomX;
+    animation-duration: 0.6s;
   }
 
   .MenuOverlay {
