@@ -1,13 +1,27 @@
+@keyframes modalFadeX {
+  from {transform: translateX(-50%);opacity: 1;}
+  to {transform: translateX(0);opacity: 1;}
+}
+
+@keyframes modalFadeY {
+  from {transform: translateY(-50%);opacity: 1;}
+  to {transform: translateY(0);opacity: 1;}
+}
+
 .Modal {
-    position: absolute;
-    top: 90px;
-    left: 300px;
-    right: 300px;
+    margin-left: auto;
+    margin-right: auto;
     bottom: 140px;
     border-radius: 25px;
-    height: 600px;
-    background-color: #353A3E;
+    width: 80%;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    height: 80vh;
+    background-color: #25262B;
+    border: 2px solid white;
     outline: none;
+    animation-name: modalFadeY;
+    animation-duration: .6s;
   }
 
   .Overlay {
@@ -21,11 +35,7 @@
     
   }
 
-
-  @keyframes modalFade {
-    from {transform: translateX(-50%);opacity: 1;}
-    to {transform: translateX(0);opacity: 1;}
-  }
+ 
   
   .MenuModal {
     position: absolute;
@@ -33,7 +43,7 @@
     width: 50%;
     background-color: #353A3E;
     outline: none;
-    animation-name: modalFade;
+    animation-name: modalFadeX;
     animation-duration: .6s;
   }
 
