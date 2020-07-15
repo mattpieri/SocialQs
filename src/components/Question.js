@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import triviaChannels from '../configs/triviaChannels.json'
 const QuestionWrapper = styled.div`
     display: grid;
-    grid-template-rows:  1fr 5fr 1fr;
+    grid-template-rows:  1fr 5fr 1 fr ;
 `;
 
 //display: flex;
@@ -13,33 +13,99 @@ const QuestionWrapper = styled.div`
     //flex-direction: column;
 const Text = styled.div`
     font-size: 15px;
-    border-radius: 0px 25px 25px 0px;
     color: white;
     font-family: Arial;
     text-align: center;
-
-    &:hover {
-        background: #95989A; // <Thing> when hovered
-    }
+    width:60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    
 `;
 
-const QuestionText = styled.div`
-    font-size: 1em;
+const QuestionHeader = styled.div`
+    
+    align-items: center;
+    padding: 15px;
+`;
+const Close = styled.div`
+    font-size: 15px;
+    color: white;
+    font-family: Arial;
+    position: absolute;
+`;
+/*
+display:flex;
+    wrap:nowrap;
+    justify-content: start;
+    */
+const QuestionProgressText = styled.div`
+    font-size: 20px;
     color: white;
     font-family: Playfair Display;
     text-align: center;
 `;
 
-const Answers = styled.div`
-    font-size: 15px;
+
+const QuestionLayout = styled.div`
+    justify-content: center;
+    display:flex;
+    flex-direction:column;
+`;
+
+
+
+const QuestionText = styled.div`
+    font-size: 10px;
     color: white;
     font-family: Arial;
-    border: 1px solid white;
-    margin:5px;
-    border-radius: 25px;
-    padding: 5px;
-    padding-left:20px;
+    width:80%;
 `;
+
+const Box = styled.div`
+    display:flex;
+    wrap:nowrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid white;
+    width:60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+`;
+//display:grid;
+//grid-template-columns: 5fr 1fr;
+
+const AnswerLight = styled.div`
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    margin-left:5px;
+
+`
+const NavLayout = styled.div`
+    display:flex;
+    wrap:nowrap;
+    justify-content: center;
+    align-items: center;
+    padding:20px;
+`
+const NavButton = styled.div`
+    border: 1px solid white;
+    border-radius: 25%;
+    margin-left:20px;
+    margin-right:20px;
+    color: white;
+    text-align: center;
+    width:30px;
+
+`
+
+
 //const ChannelMapper = (channel) => (
 //     onClick={this.handleChange.bind(this)} value={this.props.value}>{channel}</Text>
 //);
@@ -108,21 +174,37 @@ export default class Questions extends React.Component {
     render() {
         return(
             <QuestionWrapper>
-                <QuestionText>Question 1/{this.props.Game["questions"].length}</QuestionText>
+                <QuestionHeader>
+                <Close onClick={this.handleClose.bind(this)}>Close</Close>
+                <QuestionProgressText>Question 1/{this.props.Game["questions"].length}</QuestionProgressText>
+                </QuestionHeader>
                 <div>
                 {
                 this.props.Game["questions"].map((question) =>
-                <div>
+                <QuestionLayout>
                 <Text>{question['prompt']+"?"}</Text>
-                <Answers key={question.answers['answer1']}>{question.answers['answer1']}</Answers>
-                <Answers key={question.answers['answer2']}>{question.answers['answer2']}</Answers>
-                <Answers key={question.answers['answer3']}>{question.answers['answer3']}</Answers>
-                <Answers key={question.answers['answer4']}>{question.answers['answer4']}</Answers>
-                </div>
+                <Box>
+                    <QuestionText key={question.answers['answer1']}>{question.answers['answer1']}</QuestionText>
+                    <AnswerLight></AnswerLight>
+                </Box>
+                <Box>
+                    <QuestionText key={question.answers['answer2']}>{question.answers['answer2']}</QuestionText>
+                    <AnswerLight></AnswerLight>
+                </Box>
+                <Box>
+                    <QuestionText key={question.answers['answer3']}>{question.answers['answer3']}</QuestionText>
+                    <AnswerLight></AnswerLight>
+                </Box>
+                <Box>
+                    <QuestionText key={question.answers['answer4']}>{question.answers['answer4']}</QuestionText>
+                    <AnswerLight></AnswerLight>
+                </Box>
+                </QuestionLayout>
                 )
                 }
                 </div>
-                <Text onClick={this.handleClose.bind(this)}>Close</Text>
+                <NavLayout><NavButton>&#8592;</NavButton><NavButton>&#8594;</NavButton></NavLayout>
+                
                 {/*this.props.Games.map((games,questions)=> 
                     
                     <Text 
