@@ -79,14 +79,27 @@ const Box = styled.div`
 //display:grid;
 //grid-template-columns: 5fr 1fr;
 
+function doSomething(props){
+    if(props.show == false){
+        return 'None';
+    }else if (props.choice == props.answer){
+        return 'green';
+    }else {
+        return 'palevioletred'
+    }
+}
+
 const AnswerLight = styled.div`
     border: 1px solid white;
     border-radius: 50%;
     width: 15px;
     height: 15px;
     margin-left:5px;
+    background-color: ${props => doSomething(props)};
+    
 
 `
+/*props =>console.log(props.answer)*/
 const NavLayout = styled.div`
     display:flex;
     wrap:nowrap;
@@ -117,15 +130,22 @@ export default class Questions extends React.Component {
         super(props);
         this.state = {
             showResults: true,
-            /*Game:     this.props.question['gameID'], //this.props.question['prompt'],
-            questionId: this.props.question['questionID'],
-            Prompt:   this.props.question['prompt'],
-            Choice_A: this.props.question['answers']['answer1'],
-            Choice_B: this.props.question['answers']['answer2'],
-            Choice_C: this.props.question['answers']['answer3'],
-            Choice_D: this.props.question['answers']['answer4'],
-            Answer:   this.props.question['answer'],*/
+            Questions:   this.props.Game["questions"], //this.props.question['prompt'],
+            questionId:  this.props.Game["questions"][0]['questionID'],
+            Prompt:      this.props.Game["questions"][0]['prompt'],
+            Choice_A:    this.props.Game["questions"][0]['answers']['answer1'],
+            Choice_B:    this.props.Game["questions"][0]['answers']['answer2'],
+            Choice_C:    this.props.Game["questions"][0]['answers']['answer3'],
+            Choice_D:    this.props.Game["questions"][0]['answers']['answer4'],
+            Answer:      this.props.Game["questions"][0]['answer'],
+            Index: 0, 
+            Selected_A: false,
+            Selected_B: false,
+            Selected_C: false,
+            Selected_D: false,
         };
+        this.handleRight = this.handleRight.bind(this);
+        this.handleLeft = this.handleLeft.bind(this);
         }
         
     onClick(showResults){
@@ -156,8 +176,19 @@ export default class Questions extends React.Component {
     }
     changeAnswer(Answer){
         this.setState({Answer:Answer})
-    }  
-    
+    }
+
+    increaseIndex = () => {
+        this.setState(prevState => {
+           return {Index: ( prevState.Index + 1 )}
+        })
+    }
+
+    decreaseIndex = () => {
+        this.setState(prevState => {
+           return {Index: ( prevState.Index - 1 )}
+        })
+    }
     
     handleChange(e){
         
@@ -171,39 +202,124 @@ export default class Questions extends React.Component {
         this.props.handleClose();
     }
 
+    handleRight(e){
+        if( this.state.Index<this.state.Questions.length-1){
+            this.increaseIndex();
+            let prompt =    this.state.Questions[this.state.Index+1]['prompt'];
+            let choice_A =  this.state.Questions[this.state.Index+1]['answers']['answer1'];
+            let choice_B =  this.state.Questions[this.state.Index+1]['answers']['answer2'];
+            let choice_C =  this.state.Questions[this.state.Index+1]['answers']['answer3'];
+            let choice_D =  this.state.Questions[this.state.Index+1]['answers']['answer4'];
+            let answer =    this.state.Questions[this.state.Index+1]['answer'];
+            this.changePrompt(prompt);
+            this.changeChoice_A(choice_A);
+            this.changeChoice_B(choice_B);
+            this.changeChoice_C(choice_C);
+            this.changeChoice_D(choice_D);
+            this.changeAnswer(answer);
+            this.setState({Selected_A:false})
+            this.setState({Selected_B:false})
+            this.setState({Selected_C:false})
+            this.setState({Selected_D:false})
+            }
+    }
+
+    handleLeft(e){
+        if( this.state.Index>0){
+            this.decreaseIndex();
+            let prompt =    this.state.Questions[this.state.Index-1]['prompt'];
+            let choice_A =  this.state.Questions[this.state.Index-1]['answers']['answer1'];
+            let choice_B =  this.state.Questions[this.state.Index-1]['answers']['answer2'];
+            let choice_C =  this.state.Questions[this.state.Index-1]['answers']['answer3'];
+            let choice_D =  this.state.Questions[this.state.Index-1]['answers']['answer4'];
+            let answer =    this.state.Questions[this.state.Index-1]['answer'];
+            this.changePrompt(prompt);
+            this.changeChoice_A(choice_A);
+            this.changeChoice_B(choice_B);
+            this.changeChoice_C(choice_C);
+            this.changeChoice_D(choice_D);
+            this.changeAnswer(answer);
+            }
+    }
+
+    handleBoxClickA(e){
+        this.setState({Selected_A:true})
+    }
+    handleBoxClickB(e){
+        this.setState({Selected_B:true})
+    }
+    handleBoxClickC(e){
+        this.setState({Selected_C:true})
+    }
+    handleBoxClickD(e){
+        this.setState({Selected_D:true})
+    }
+    /*    const value = e.target;
+        //if( value == this.state.answer)
+        console.log(value)
+        switch(value) {
+            case "A":
+            
+              break;
+            case "B":
+                this.setState({Selected_B:true})
+                break;
+            case "C":
+                this.setState({Selected_C:true})
+                break;
+            case "D":
+                this.setState({Selected_D:true})
+                break;
+          }
+
+    }*/
+
+
     render() {
         return(
             <QuestionWrapper>
                 <QuestionHeader>
                 <Close onClick={this.handleClose.bind(this)}>Close</Close>
-                <QuestionProgressText>Question 1/{this.props.Game["questions"].length}</QuestionProgressText>
+                <QuestionProgressText>Question {this.state.Index+1}/{this.state.Questions.length}</QuestionProgressText>
                 </QuestionHeader>
                 <div>
-                {
-                this.props.Game["questions"].map((question) =>
-                <QuestionLayout>
-                <Text>{question['prompt']+"?"}</Text>
-                <Box>
-                    <QuestionText key={question.answers['answer1']}>{question.answers['answer1']}</QuestionText>
-                    <AnswerLight></AnswerLight>
-                </Box>
-                <Box>
-                    <QuestionText key={question.answers['answer2']}>{question.answers['answer2']}</QuestionText>
-                    <AnswerLight></AnswerLight>
-                </Box>
-                <Box>
-                    <QuestionText key={question.answers['answer3']}>{question.answers['answer3']}</QuestionText>
-                    <AnswerLight></AnswerLight>
-                </Box>
-                <Box>
-                    <QuestionText key={question.answers['answer4']}>{question.answers['answer4']}</QuestionText>
-                    <AnswerLight></AnswerLight>
-                </Box>
-                </QuestionLayout>
-                )
-                }
+                    <QuestionLayout>
+                    <Text>{this.state.Prompt+"?"}</Text>
+                    <Box id="A" onClick={this.handleBoxClickA.bind(this)}>
+                        <QuestionText>{this.state.Choice_A}</QuestionText>
+                        <AnswerLight choice={this.state.Choice_A}
+                                     answer={this.state.Answer}
+                                     show={this.state.Selected_A}>
+                        </AnswerLight>
+                    </Box>
+                    <Box id="B" onClick={this.handleBoxClickB.bind(this)}>
+                        <QuestionText>{this.state.Choice_B}</QuestionText>
+                        <AnswerLight choice={this.state.Choice_B}
+                                     answer={this.state.Answer}
+                                     show={this.state.Selected_B}>
+                        </AnswerLight>
+                    </Box>
+                    <Box id="C" onClick={this.handleBoxClickC.bind(this)}>
+                        <QuestionText>{this.state.Choice_C}</QuestionText>
+                        <AnswerLight choice={this.state.Choice_C}
+                                     answer={this.state.Answer}
+                                     show={this.state.Selected_C}>
+                        </AnswerLight>
+                    </Box>
+                    <Box id="D" onClick={this.handleBoxClickD.bind(this)}>
+                        <QuestionText>{this.state.Choice_D}</QuestionText>
+                        <AnswerLight choice={this.state.Choice_D}
+                                     answer={this.state.Answer}
+                                     show={this.state.Selected_D}
+                                     >
+                        </AnswerLight>
+                    </Box>
+                    </QuestionLayout>
                 </div>
-                <NavLayout><NavButton>&#8592;</NavButton><NavButton>&#8594;</NavButton></NavLayout>
+                <NavLayout>
+                    <NavButton onClick={this.handleLeft}>&#8592;</NavButton>
+                    <NavButton onClick={this.handleRight}>&#8594;</NavButton>
+                </NavLayout>
                 
                 {/*this.props.Games.map((games,questions)=> 
                     
