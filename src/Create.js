@@ -27,6 +27,9 @@ const SubText = styled.div`
 
 `;
 
+const Background = styled.div`
+    background-color: #25262B; 
+`;
 
 
 const TextLayout = styled.div`
@@ -45,6 +48,25 @@ const AppLayout = styled.div`
     height: 100vh;
 `;
 
+const Questionlayout = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-left:10px;
+    margin-right:10px;
+`;
+
+const Question = styled.div`
+    border-radius:25px;
+    border: 1px solid #353A3E;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding: 10px;
+    padding-left:15px;
+    font-size: 13px;
+    color: #9f9fa1;
+`;
+
 export default class ViewTeam extends React.Component {
     constructor(props) {
         super(props);
@@ -61,15 +83,16 @@ export default class ViewTeam extends React.Component {
     render() {
         
         return(
-        <div>
+        <Background>
             <MyNavTest>Alexa's Social Qs</MyNavTest>
             <AppLayout>
-            <Banner>Create</Banner>
-            <TextLayout><Text>Photo</Text>
+            <Banner>Add Game</Banner>
+            <TextLayout>
             <ImageUploader
                 withIcon={true}
                 withLabel={false}
-                fileContainerStyle = {{"margin-left": "auto","margin-right": "auto","width": "50%","background-color": "#9f9fa1"}}
+                fileContainerStyle = {{"font-color":"white","margin-left": "auto","margin-right": "auto","width": "50%","background-color": "#353A3E"}}
+                buttonStyles = {{"color":"#4B4B4C","background-color":"#353A3E","border":"1px solid #4B4B4C"}}
                 buttonText='Choose photo'
                 onChange={this.onDrop}
                 imgExtension={['.jpg', '.gif', '.png', '.gif']}
@@ -82,9 +105,15 @@ export default class ViewTeam extends React.Component {
             <TextLayout><Text>Sub-Category</Text><SubText>TV</SubText></TextLayout>
             <TextLayout><Text>Visiblity</Text><SubText>Public</SubText></TextLayout>
             
-            <TextLayout><Text>Questions</Text><SubText>.</SubText></TextLayout>
+            <TextLayout><Text>Questions</Text>
+                <Questionlayout>
+                    <Question>+ Add Question</Question>
+                    <Question>Test</Question>
+                    <Question>Test</Question>
+                </Questionlayout>
+            </TextLayout>
             </AppLayout>
-        </div>
+        </Background>
          );
         };
 };
