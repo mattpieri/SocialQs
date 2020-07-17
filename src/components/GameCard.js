@@ -5,6 +5,7 @@ import media from "styled-media-query";
 import myImage from "../assets/images/images.png";
 import triviaChannels from "../configs/triviaChannels.json"
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 const CardsLayout = styled.div`
     display: flex;
@@ -14,6 +15,23 @@ const CardsLayout = styled.div`
     height:2000px;
     
 `;
+
+const CardLayoutLink = styled(Link)`
+    border-radius: 25px;
+    display:grid;
+    grid-template-rows: 4fr 1fr;
+    ${media.lessThan("medium")`
+        width: 325px;
+        height: 325px;
+    `}
+    ${media.greaterThan("medium")`
+        width: 270px;
+        height: 270px;
+    `}
+    margin: 20px;
+    box-shadow: 0 8px 12px 0 black, 0 10px 25px 0 black;
+`;
+
 //${media.lessThan("medium")`
 //        scroll-snap-align: center;
 //`}
@@ -236,10 +254,29 @@ export default class GameCard extends React.Component {
         }
     }
 
+    onAddGame(e){
+
+    };
+
     render() {
         return(
             <Slider ref="elementToFire" ref={this.scrollerRef} id={this.state.Categoies} >
                 <CardsLayout >
+                    <CardLayoutLink to="/create" id={"addgame"}>
+                            <TopImage id={"addgame"}>
+                            <Top id={"addgame"}>
+                                <Space id={"addgame"}></Space>
+                                <CardTitle id={"addgame"}>Add Game</CardTitle>
+                                <CardDetailsLayout id={"addgame"}>
+                                    <CardDetail id={"addgame"}></CardDetail>
+                                    <CardDetail id={"addgame"}></CardDetail>
+                                    <CardDetail id={"addgame"}></CardDetail>
+                                    <CardDetail id={"addgame"}></CardDetail>
+                                </CardDetailsLayout >
+                            </Top>
+                            </TopImage>
+                            <Botton id={"addgame"}>Click to Create Trivia</Botton>
+                    </CardLayoutLink>
                     {this.props.Games.map(({game, questions})=> 
                         <CardLayout id={game} onClick={this.handleChange.bind(this)}>
                             <TopImage id={game}>

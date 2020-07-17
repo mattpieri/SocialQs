@@ -239,6 +239,10 @@ export default class Questions extends React.Component {
             this.changeChoice_C(choice_C);
             this.changeChoice_D(choice_D);
             this.changeAnswer(answer);
+            this.setState({Selected_A:false})
+            this.setState({Selected_B:false})
+            this.setState({Selected_C:false})
+            this.setState({Selected_D:false})
             }
     }
 
