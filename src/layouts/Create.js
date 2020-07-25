@@ -4,6 +4,10 @@ import MyNavTest  from '../components/MyNav';
 import ImageUploader from 'react-images-upload';
 import {Link} from 'react-router-dom';
 import styles from '../styles/Modal.css'; 
+//import DataProvider from '../contexts/DataProvider'
+import SimpleTextInput from './Test';
+
+ 
 
 const Logo = styled.div`
     
@@ -47,6 +51,7 @@ const AppLayout = styled.div`
     flex-direction: column;
     justify-content: start;
     background-color: #25262B; 
+    height: 100vh;
 `;
 
 const Questionlayout = styled.div`
@@ -105,6 +110,7 @@ export default class ViewTeam extends React.Component {
                 maxFileSize={5242880}
             />
             </TextLayout>
+
             <TextLayout to={this.passStat("Alexa Code")}><Text>Alexa Code</Text><SubText>#43243</SubText></TextLayout>
             <TextLayout to={this.passStat("Title","Pokemon")}><Text>Title</Text><SubText>Pokemon</SubText></TextLayout>
             <TextLayout to={this.passStat("Category","Entertainment")}><Text>Category</Text><SubText>Entertainment</SubText></TextLayout>

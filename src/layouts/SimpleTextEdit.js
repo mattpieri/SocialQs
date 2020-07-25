@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component, useContext } from 'react'
 import styled from 'styled-components'
 import MyNavTest  from '../components/MyNav';
 import {Link} from 'react-router-dom';
 import backwardarrow from "../assets/images/backwardarrow.png";
+import {CreateContext} from '../contexts/CreateContext'
 
 const Image = styled.img`
 position: absolute;
@@ -37,9 +38,9 @@ const Editor = styled.input`
     background-color: #25262B
 `;
 
-export default class SimpleTextEdit extends React.Component {
-    constructor(props) {
-        super(props);
+class SimpleTextEdit extends Component {
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             value: '',
         };
@@ -63,12 +64,13 @@ export default class SimpleTextEdit extends React.Component {
     }
 
     handleChange(event) {
+        console.log(this.context)
         this.setState({value: event.target.value});
-    }
+    }                              
 
     render() {
-        
         return(
+
         <Background>
             <Image onClick={this.goBack} src={backwardarrow} ></Image>
             <Banner>{this.props.location.state.field}</Banner>
@@ -77,6 +79,9 @@ export default class SimpleTextEdit extends React.Component {
                     value={this.state.value}
                     onChange={this.handleChange}/>
         </Background>
+
          );
         };
 };
+
+export default SimpleTextEdit
