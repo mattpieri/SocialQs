@@ -7,7 +7,11 @@ import { Game } from './Game';
 import { Search } from './Search';
 import { NavigationBar } from './components/NavigationBar';
 import ViewTeam from './ViewTeam'
-import SimpleTextInput from './layouts/Test.js';
+import { ComplexTextInput } from './layouts/QuestionLayout.js';
+import { SimpleTextInput } from './layouts/Test.js';
+import SimpleText from './layouts/SimpleText.js';
+//import {ComplexDrop} from './layouts/SimpleDrop.js';
+import { ComplexDrop, SimpleDrop } from './layouts/SimpleDrop.js';
 import {CreateProvider} from './contexts/CreateContext';
 
 function App() {
@@ -23,7 +27,11 @@ function App() {
           <Route exact path="/game" component={ViewTeam} />
           <Route exact path="/create" component={Create} />
           <Route exact path="/edit" component={SimpleTextInput} />
-          <Route component={ViewTeam}/>
+          <Route exact path="/text" component={SimpleText} />
+          <Route exact path="/drop" component={ComplexDrop} />
+          <Route exact path="/simpdrop" component={SimpleDrop} />
+          <Route exact path="/question" component={ComplexTextInput} />
+          {/*<Route component={ViewTeam}/>*/}
           </CreateProvider>
           </Switch>
         </Router>

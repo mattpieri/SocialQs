@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components'
 import MyNavTest  from '../components/MyNav';
 import ImageUploader from 'react-images-upload';
@@ -6,11 +6,9 @@ import {Link} from 'react-router-dom';
 import styles from '../styles/Modal.css'; 
 //import DataProvider from '../contexts/DataProvider'
 import SimpleTextInput from './Test';
-
- 
+import {CreateContext} from '../contexts/CreateContext'
 
 const Logo = styled.div`
-    
 `;
 
 const Banner = styled.div`
@@ -18,8 +16,6 @@ const Banner = styled.div`
     text-align: center;
     padding: 5px;
     font-size: 20px;
-
-
 `;
 
 const Text = styled.div`
@@ -73,59 +69,86 @@ const Question = styled.div`
     color: #9f9fa1;
 `;
 
-export default class ViewTeam extends React.Component {
-    constructor(props) {
-        super(props);
-         this.state = { pictures: [] };
-         this.onDrop = this.onDrop.bind(this);
-         this.passStat = this.passStat.bind(this);
+const QuestionLink = styled(Link)`
+    border-radius:25px;
+    border: 1px solid #353A3E;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding: 10px;
+    padding-left:15px;
+    font-size: 13px;
+    color: #9f9fa1;
+`;
+
+const Create = props => {
+    const [picture, setPicture ] = useState([]);
+    const [details, setDetails] = useContext(CreateContext);
+
+    const onDrop = picture => {
+        console.log(picture);
+        //setPicture({...prevPic
+        //    pictures: this.state.pictures.concat(picture),
+        //});
     }
 
-    onDrop(picture) {
-        this.setState({
-            pictures: this.state.pictures.concat(picture),
-        });
-    }
-
-    passStat(f, v) {
-        return( {pathname:'/edit', state: {field:f, value:v}});
-    }
-
-    render() {
+    const NavDirector = ( f ) => {
+        console.log(f)
+        switch( f ){
+        case "AlexaCode":
+            return( {pathname:'/text', state: {field:f, display: "Alexa Code"}});
         
-        return(
-        <Background>
-            <MyNavTest>Alexa's Social Qs</MyNavTest>
-            <AppLayout>
-            <Banner>Add Game</Banner>
-            <TextLayout>
-            <ImageUploader
-                withIcon={true}
-                withLabel={false}
-                fileContainerStyle = {{"font-color":"white","margin-left": "auto","margin-right": "auto","width": "50%","background-color": "#353A3E"}}
-                buttonStyles = {{"color":"#4B4B4C","background-color":"#353A3E","border":"1px solid #4B4B4C"}}
-                buttonText='Choose photo'
-                onChange={this.onDrop}
-                imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                maxFileSize={5242880}
-            />
-            </TextLayout>
+        case "Title":
+            return( {pathname:'/edit', state: {field:f, display: "Title"}});
+        
+        case "Category":
+            return( {pathname:'/drop', state: {field:"Category", display: "Category"}});
+                
+        case "SubCategory":
+            return( {pathname:'/drop', state: {field:f, display: "Sub Category"}});
+        
+        case "Visiblity":
+            return( {pathname:'/simpdrop', state: {field:f, display: "Visiblity"}});
+        
+        }
+    }
 
-            <TextLayout to={this.passStat("Alexa Code")}><Text>Alexa Code</Text><SubText>#43243</SubText></TextLayout>
-            <TextLayout to={this.passStat("Title","Pokemon")}><Text>Title</Text><SubText>Pokemon</SubText></TextLayout>
-            <TextLayout to={this.passStat("Category","Entertainment")}><Text>Category</Text><SubText>Entertainment</SubText></TextLayout>
-            <TextLayout to={this.passStat("Sub-Category","TV")}><Text>Sub-Category</Text><SubText>TV</SubText></TextLayout>
-            <TextLayout to={this.passStat("Visiblity","Public")}><Text>Visiblity</Text><SubText>Public</SubText></TextLayout>
-            
-            <TextLayout><Text>Questions</Text>
-                <Questionlayout>
-                    <Question>+ Add Question</Question>
-                    <Question>Test</Question>
-                    <Question>Test</Question>
-                </Questionlayout>
-            </TextLayout>
-            </AppLayout>
-        </Background>
-         );
-        };
+    return(
+    <Background>
+        <MyNavTest>Alexa's Social Qs</MyNavTest>
+        <AppLayout>
+        <Banner>Add Game</Banner>
+        <TextLayout>
+        <ImageUploader
+            withIcon={true}
+            withLabel={false}
+            fileContainerStyle = {{"font-color":"white","margin-left": "auto","margin-right": "auto","width": "50%","background-color": "#353A3E"}}
+            buttonStyles = {{"color":"#4B4B4C","background-color":"#353A3E","border":"1px solid #4B4B4C"}}
+            buttonText='Choose photo'
+            onChange={onDrop}
+            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+            maxFileSize={5242880}
+        />
+        </TextLayout>
+
+        <TextLayout to={{pathname:'/text', state: {field:"AlexaCode", display: "Alexa Code"}}}><Text>Alexa Code</Text><SubText>{details.AlexaCode}</SubText></TextLayout>
+        <TextLayout to={{pathname:'/edit', state: {field:"Title", display: "Title"}}}><Text>Title</Text><SubText>{details.Title}</SubText></TextLayout>
+        <TextLayout to={{pathname:'/drop', state: {field:"Category", display: "Category"}}}><Text>Category</Text><SubText>{details.Category}</SubText></TextLayout>
+        <TextLayout to={{pathname:'/drop', state: {field:"SubCategory", display: "Sub Category"}}}><Text>Sub-Category</Text><SubText>{details.SubCategory}</SubText></TextLayout>
+        <TextLayout to={{pathname:'/simpdrop', state: {field:"Visibility", display: "Visibility"}}}><Text>Visiblity</Text><SubText>{details.Visibility}</SubText></TextLayout>
+        
+        <TextLayout><Text>Questions</Text>
+            <Questionlayout>
+                <QuestionLink to={{pathname:'/question', state: {field:"Visibility", display: "Visibility"}}}>+ Add Question</QuestionLink>
+                {
+                details.Questions.map((question)=> 
+                    <Question id={question.questionId}>{question.question}</Question>
+                )
+                }
+            </Questionlayout>
+        </TextLayout>
+        </AppLayout>
+    </Background>
+    );
 };
+
+export default Create

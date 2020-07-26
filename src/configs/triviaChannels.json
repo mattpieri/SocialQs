@@ -1,7 +1,8 @@
 
 {
-    "Channels": [ "Your Trivia", "General", "Entertainment", "Nature", "Sports", 
-        "Technology", "Business", "Science", "History", "World" ],
+    "Channels": [ "Your Trivia", "General", "Entertainment", "Nature", "Sports", "Technology", "Business", "Science", "History", "World" ],
+    "Categories": [ "General", "Entertainment", "Nature", "Sports", "Technology", "Business", "Science", "History", "World" ],
+    "Visiblity": [ "Public", "Private" ],
     "Your Trivia" : [ "Recent", "Created", "Liked" ],
     "General": [ "Latest", "Random", "Weird", "Cool", "Funny" ],
     "Entertainment": [ "Latest", "Film", "TV", "Books", "Music", "Internet"],
