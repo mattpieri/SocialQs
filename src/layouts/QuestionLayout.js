@@ -55,7 +55,18 @@ const ComplexTextInput = props => {
     const [choiceD, setChoiceD] = useState("");
     const [answer, setAnswer] = useState("");
 
+    const vadidateInput = e => {
+        var result = true;
+        if( question == "" || choiceA == "" || choiceB == "" || choiceC == ""|| choiceD == "" || answer == "")
+            result = false;
+        return( result )
+    }
+
     const goBack = e => {
+        if( vadidateInput() == false )
+        {
+            alert("One or more inputs is blank!")
+        }else{
         setDetails(prev => ({
             ...prev,
             Questions: [ ...prev.Questions, { "question": question, 
@@ -69,6 +80,7 @@ const ComplexTextInput = props => {
         }));
         //setDetails({...details["Questions"],"Questions":[...details["Questions"],"asdf"]});
         props.history.goBack();
+        }
     }
 
     const handleChangeQ = e => { setQuestion(e.target.value);}  

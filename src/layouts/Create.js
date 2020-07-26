@@ -16,6 +16,7 @@ const Banner = styled.div`
     text-align: center;
     padding: 5px;
     font-size: 20px;
+    font-weight: bold;
 `;
 
 const Text = styled.div`
@@ -48,6 +49,7 @@ const AppLayout = styled.div`
     justify-content: start;
     background-color: #25262B; 
     height: 100vh;
+    font-family: sans-serif;
 `;
 
 const Questionlayout = styled.div`
@@ -80,10 +82,36 @@ const QuestionLink = styled(Link)`
     color: #9f9fa1;
 `;
 
+const Cancel = styled.div`
+    font-size: 1em;
+    margin: 5px;
+    padding: 5px;
+    position: absolute;
+    color: palevioletred;
+    font-weight: bold;
+
+`;
+
+const Done = styled(Link)`
+    font-size: 1em;
+    margin: 5px;
+    padding: 5px;
+    right: 0px;
+    position: absolute;
+    color: palevioletred;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
+
+
 const Create = props => {
     const [picture, setPicture ] = useState([]);
     const [details, setDetails] = useContext(CreateContext);
-
+    const apiTransactions = 'https://rcbnv6ut12.execute-api.us-east-1.amazonaws.com/test/transactions';
     const onDrop = picture => {
         console.log(picture);
         //setPicture({...prevPic
@@ -91,31 +119,72 @@ const Create = props => {
         //});
     }
 
-    const NavDirector = ( f ) => {
-        console.log(f)
-        switch( f ){
-        case "AlexaCode":
-            return( {pathname:'/text', state: {field:f, display: "Alexa Code"}});
-        
-        case "Title":
-            return( {pathname:'/edit', state: {field:f, display: "Title"}});
-        
-        case "Category":
-            return( {pathname:'/drop', state: {field:"Category", display: "Category"}});
-                
-        case "SubCategory":
-            return( {pathname:'/drop', state: {field:f, display: "Sub Category"}});
-        
-        case "Visiblity":
-            return( {pathname:'/simpdrop', state: {field:f, display: "Visiblity"}});
-        
+    const vadidateQuestions = () => {
+        if( details.Questions.length == 0 ){
+            return( false )
         }
+        return( true )
+    }
+
+    const goBack = () => {
+        props.history.goBack();
+    }
+
+    const save = () => {
+        console.log(vadidateQuestions() )
+        if( vadidateQuestions() == false )
+        {
+            alert( "Please add atleast 1 question" )
+        }else {
+        post();
+        props.history.goBack();
+        }
+    }
+
+
+    const post = async () => {
+        fetch( apiTransactions, {
+          method: 'post',
+          headers: {
+          'Accept': 'application/json, text/plain, */*',
+          //'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+        {
+          gameID:  details.Title.toLowerCase(),
+          questionId: details.Questions[0].questionId.toLowerCase(),
+          answer1: details.Questions[0].choiceA.toLowerCase(),
+          answer2: details.Questions[0].choiceB.toLowerCase(),
+          answer3: details.Questions[0].choiceC.toLowerCase(),
+          answer4: details.Questions[0].choiceD.toLowerCase(),
+          answer:  details.Questions[0].answer.toLowerCase(),
+          prompt:  details.Questions[0].question.toLowerCase(),
+          requestType: 'update',
+          type: 'multipleChoice'    
+       })
+        }).then(res=>res.json())
+        .then(res => console.log(res));
+      }
+    
+    const resetContext = () => {
+        setDetails( 
+            {
+                AlexaCode: '#'+Math.floor(Math.random()*90000),
+                Title: '...',
+                Category: 'Entertainment',
+                SubCategory: '...',
+                Visibility: 'Public',
+                Questions: [],
+            }
+        )
     }
 
     return(
     <Background>
         <MyNavTest>Alexa's Social Qs</MyNavTest>
         <AppLayout>
+        <Cancel onClick={goBack}>Cancel</Cancel>
+        <Done onClick={save}>Done</Done>
         <Banner>Add Game</Banner>
         <TextLayout>
         <ImageUploader
