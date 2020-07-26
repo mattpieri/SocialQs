@@ -58,7 +58,7 @@ const Questionlayout = styled.div`
     margin-right:10px;
 `;
 
-const Question = styled.div`
+const Question = styled(Link)`
     border-radius:25px;
     border: 1px solid #353A3E;
     margin-top:5px;
