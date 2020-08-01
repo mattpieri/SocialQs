@@ -46,6 +46,8 @@ const Selector = styled.select`
     background-color: #25262B
 `;
 
+
+
 const ComplexTextInput = props => {
     const [details, setDetails] = useContext(CreateContext);
     const [question, setQuestion] = useState("");
@@ -74,8 +76,9 @@ const ComplexTextInput = props => {
                                             "choiceB": choiceB, 
                                             "choiceC": choiceC,
                                             "choiceD": choiceD, 
-                                            "answer": answer, 
-                                            "questionId": 'Q'+Math.floor(Math.random()*90000)
+                                            "answer": answer,
+                                            "questionType": "multipleChoice", 
+                                            "questionId": 'QUESTION#'+Math.floor(Math.random()*90000)
                                         } ]
         }));
         //setDetails({...details["Questions"],"Questions":[...details["Questions"],"asdf"]});

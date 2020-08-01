@@ -7,8 +7,8 @@ export const CreateProvider = props => {
     {
         AlexaCode: '#'+Math.floor(Math.random()*90000),
         Title: '...',
-		Category: 'Entertainment',
-		SubCategory: '...',
+		Category: 'General',
+		SubCategory: 'Random',
         Visibility: 'Public',
         Questions: [],
     }

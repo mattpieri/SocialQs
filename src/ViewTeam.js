@@ -62,6 +62,7 @@ export default class ViewTeam extends React.Component {
     //Array.prototype.forEach.call(this.games, game => this.state[game] = false )
     this.getGames.bind(this)
     this.getGames()
+
     this.handleOpenModal  = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);  
     this.closeMenuModal  = this.closeMenuModal.bind(this);
@@ -72,7 +73,6 @@ export default class ViewTeam extends React.Component {
   
   changeChannel(Channel){
     this.setState({Channel:Channel})
-    //this.setState({ showMenuModal: false });
   }
 
   updatedSelectedGame(SelectedGameObject)
@@ -98,9 +98,25 @@ export default class ViewTeam extends React.Component {
   }
 
   getGames = async () => {
-    fetch( 'https://rcbnv6ut12.execute-api.us-east-1.amazonaws.com/test/games')
-    .then(res=>res.json())
-    .then(res => this.setState({Games:res}));
+    var General = "General"
+    var Random = "Random"
+    var getGamesByCategoryAndSubCategory = "getGamesByCategoryAndSubCategory"
+    
+    fetch( 'https://rcbnv6ut12.execute-api.us-east-1.amazonaws.com/test/transactions', {
+      method: 'post',
+      headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(
+      { 
+        category:     General,
+        subCategory:   Random,
+        requestType:  getGamesByCategoryAndSubCategory
+    })
+      }).then(res=>res.json())
+      .then(res => this.setState({Games:res}));
+      
   }
   
   openMenuModal () {
@@ -145,7 +161,8 @@ export default class ViewTeam extends React.Component {
           <Media query="(min-width: 768px)" render={() => (<Channels update={this.changeChannel.bind(this)}></Channels>)}/>
           <ChannelHeader Title={this.state.Channel}></ChannelHeader>
           <CategoryWheel updateScrollIndex={this.changeScrollIndex.bind(this)} Channel={this.state.Channel}></CategoryWheel>
-          <GameCard focusIndex={this.state.ScrollIndex}  Games={this.state.Games} update={this.changeGame}></GameCard>
+          <GameCard focusIndex={this.state.ScrollIndex} category={this.state.Channel} Games={this.state.Games} update={this.changeGame}>
+          </GameCard>
           <Space></Space>
         </GridLayout>
       </div>

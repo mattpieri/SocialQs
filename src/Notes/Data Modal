@@ -1,0 +1,155 @@
+https://www.youtube.com/watch?v=DIQVJqiSUkE
+
+Add a new image (CREATE);
+Retrieve a single image by its URL path (READ);
+Increase the view count on an image (UPDATE);
+Retrieve the top N images based on total view count (LEADERBOARD).
+
+
+
+Add a new game (CREATE);
+Retrieve a single game by its URL path (READ);
+Increase the view count on a game (UPDATE);
+Retrieve the top N games based on total view count (LEADERBOARD)
+Retrieve the top N games based on total view count (LEADERBOARD)
+Retrieve the top N games based on total view count (LEADERBOARD)
+
+But finding the top score means we need knowledge of the 
+entire DynamoDB key space. This sounds like it requires 
+a scan, which we know we should never do.
+
+
+Schema Design: Primay Key and core attributes
+
+Create, Read, and Update of a Game
+ key-based lookups for a particular image
+
+Each image will have a URL path in the form of images/<id>.jpg
+
+Name        Type        Primary Key
+Game        String      Hash 
+Data        Map         
+ViewCount   Integer     ..
+Likes       Integer     ..
+Dislikes    Integer     ..
+
+Data           Type    Example
+AlexCode        
+Category
+SubCategory
+Visibility
+Questions
+
+Questions
+QuestionId
+Question
+ChoiceA
+ChoiceB
+ChoiceC
+ChoiceD
+Answer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+AWS AppSync
+
+Authentication 
+Name            Type        Primary Key
+SessionId       String      Hash 
+Data    
+
+Data
+Username
+CreatedAt
+ExpiresAt
+
+Secondary Indexes?
+Flipping index
+
+ERD 
+Acces patterns
+Primary Key ... Secondary Indexes
+
+ERD
+
+Username
+FullName
+Email
+CreatedAt
+
+Games
+Category
+SubCategory
+Likes
+Dislikes
+Viewcount
+Image
+CreatedAt
+
+Questions
+QuestionType
+QuestionsId
+ChoiceA
+ChoiceB
+ChoiceC
+ChoiceD
+Question
+Answer
+
+Identity access patterns
+
+1. Get user profile
+
+2. Get games by Category and SubCategory
+
+3. Get questions for single game
+
+Entity Chart
+            PK                  SK
+user        USER#<username>     #PROFILE<username>
+game        USER#<username>     GAME#<game>
+question    NA                  NA
+
+
+Is the data bounded? Are you going to be accessing the data directly?
+Solution then is denormalize Question
+
+Get games for a Username
+
+Query:
+"PK = USER#alexdebrie AND BEGINS_WITH(SK, 'GAME#')"
+
+NO WHERE CLAUSE FOR NO SQL 
+
+Get games by Category and SubCategory ( Sparse Index pattern)
+
+SubCategoryID
+Hash 
+
+SecondaryIndex on SubCateoegy 
+
+Get games by Category and Time ( Sparse Index pattern)
+
+CategorySubCategory
+CreatedAt
+2015-12-21T17:42:34Z
+
+Get games by Category and Time ( Sparse Index pattern)
+
+Store Date as 2016-02-15
+his is by using ISO 8601 strings, as shown in these examples:
+
+2016-02-15
+
+2015-12-21T17:42:34Z
+
+20150311T122706Z
+
+
+
+
+
+
+
+
+
+
+

@@ -160,40 +160,41 @@ export default class GameCard extends React.Component {
         this.state = {
             OverScrollIndex: 0,
             Categoies: 3,
+            IndexGamesMap: {},
         };
-        //this._fireOnScroll = this.fireOnScroll.bind(this);
+        this.handleCategoryChange  = this.handleCategoryChange.bind(this);
+        this.setGames              = this.setGames.bind(this);
         this.scrollerRef = React.createRef();
       }
-    /*
-    fireOnScroll(e) {
-        for(var i=0;i < this.state.Categoies;i++)
-        {
-            let Bottom = i/this.state.Categoies-.05;
-            let Top    =  i/this.state.Categoies+.05;
-            let x = e.target.scrollLeft/e.target.scrollWidth;
-            if( Bottom < x && x < Top)
-                this.state.OverScrollIndex = i;
-        }
-        //this.props.updateScrollIndex(this.state.OverScrollIndex+1 );
 
-        //console.log('Scroll ' + ScrollIndex)
 
-        //console.log(e.target.scrollLeft);
-        //console.log(e.target.scrollWidth);
-        //console.log(e.target.scrollLeft/e.target.scrollWidth);
-        //console.log(this.state.OverScrollIndex);
+    setGames = async ( cat, sub, index ) => {
+        var getGamesByCategoryAndSubCategory = "getGamesByCategoryAndSubCategory"
+        
+        fetch( 'https://rcbnv6ut12.execute-api.us-east-1.amazonaws.com/test/transactions', {
+        method: 'post',
+        headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+        { 
+            category:     cat,
+            subCategory:   sub,
+            requestType:  getGamesByCategoryAndSubCategory
+        })
+        }).then(res=>res.json())
+        .then(res => {
+            let localIndexGamesMap = this.state.IndexGamesMap;
+            localIndexGamesMap[index] = res;
+            this.setState({IndexGamesMap:localIndexGamesMap})
+            console.log(cat)
+            console.log(sub)
+            console.log(localIndexGamesMap)
+        });
+
     }
-    //scrollWidth
-    componentDidMount() {
-        const elem = ReactDOM.findDOMNode(this.refs.elementToFire);
-        elem.addEventListener('scroll', this._fireOnScroll, true);
-    }
-    
-    componentWillUnmount() {
-        const elem = ReactDOM.findDOMNode(this.refs.elementToFire);
-        elem.removeEventListener('scroll', this._fireOnScroll);
-    }*/
-
+      
     handleChange(e){
         
         const value = e.target.id;
@@ -201,11 +202,9 @@ export default class GameCard extends React.Component {
         this.props.update(value);
     }
 
-    handleScroll(e){
-        
-        //const value = e.target.id;
-        console.log("asdfa");
-        //this.props.update(value);
+    handleCategoryChange( cat, subcats ){
+        this.setState({Categoies:subcats.length})
+        subcats.map( ( subcat, index )  => this.setGames( cat, subcat, index ))
     }
 
     scroll( newIndex ) {
@@ -252,11 +251,15 @@ export default class GameCard extends React.Component {
             console.log("NEW SCROLL INDEX"+ this.props.focusIndex )
             this.scroll(this.props.focusIndex);
         }
+        if (this.props.category !== prevProps.category) {
+            console.log("New Categories "+ this.props.category  );
+            console.log("New Sub Categories "+ triviaChannels[this.props.category]  );
+            //set new category state size
+            this.handleCategoryChange( this.props.category, triviaChannels[this.props.category] )
+            //handleCategoryChange()
+        }
+        
     }
-
-    onAddGame(e){
-
-    };
 
     render() {
         return(
@@ -277,62 +280,29 @@ export default class GameCard extends React.Component {
                             </TopImage>
                             <Botton id={"addgame"}>Click to Create Trivia</Botton>
                     </CardLayoutLink>
-                    {this.props.Games.map(({game, questions})=> 
+                    {/*console.log("HELLLLLLOWW")*/}
+                    {/*console.log(this.props.Games)*/}
+                    {this.props.Games.map((game)=> 
+                        
                         <CardLayout id={game} onClick={this.handleChange.bind(this)}>
                             <TopImage id={game}>
                             <Top id={game}>
                                 <Space id={game}></Space>
-                                <CardTitle id={game}>{game}</CardTitle>
+                                <CardTitle id={game}>{game.SK}</CardTitle>
                                 <CardDetailsLayout id={game}>
-                                    <CardDetail id={game}>Plays 2.2M</CardDetail>
-                                    <CardDetail id={game}>Q's 23</CardDetail>
-                                    <CardDetail id={game}>Like 23k</CardDetail>
-                                    <CardDetail id={game}>#12321</CardDetail>
+                                    <CardDetail id={game}>Plays {game.ViewCount}</CardDetail>
+                                    <CardDetail id={game}>Q's {game.Questions.length}</CardDetail>
+                                    <CardDetail id={game}>Likes {game.Likes}</CardDetail>
+                                    <CardDetail id={game}>{game.AlexaCode}</CardDetail>
                                 </CardDetailsLayout >
                             </Top>
                             </TopImage>
-                            <Botton id={game}>Explore #{game} Trivia</Botton>
+                            <Botton id={game}></Botton>
                         </CardLayout>
                     )}
                 </CardsLayout>
-                <CardsLayout>
-                    {this.props.Games.map(({game, questions})=> 
-                        <CardLayout id={game} onClick={this.handleChange.bind(this)}>
-                            <TopImage id={game}>
-                            <Top id={game}>
-                                <Space id={game}></Space>
-                                <CardTitle id={game}>{game}</CardTitle>
-                                <CardDetailsLayout id={game}>
-                                    <CardDetail id={game}>Plays 2.2M</CardDetail>
-                                    <CardDetail id={game}>Q's 23</CardDetail>
-                                    <CardDetail id={game}>Like 23k</CardDetail>
-                                    <CardDetail id={game}>#12321</CardDetail>
-                                </CardDetailsLayout >
-                            </Top>
-                            </TopImage>
-                            <Botton id={game}>Explore #{game} Trivia</Botton>
-                        </CardLayout>
-                    )}
-                </CardsLayout>
-                <CardsLayout>
-                    {this.props.Games.map(({game, questions})=> 
-                        <CardLayout id={game} onClick={this.handleChange.bind(this)}>
-                            <TopImage id={game}>
-                            <Top id={game}>
-                                <Space id={game}></Space>
-                                <CardTitle id={game}>{game}</CardTitle>
-                                <CardDetailsLayout id={game}>
-                                    <CardDetail id={game}>Plays 2.2M</CardDetail>
-                                    <CardDetail id={game}>Q's 23</CardDetail>
-                                    <CardDetail id={game}>Like 23k</CardDetail>
-                                    <CardDetail id={game}>#12321</CardDetail>
-                                </CardDetailsLayout >
-                            </Top>
-                            </TopImage>
-                            <Botton id={game}>Explore #{game} Trivia</Botton>
-                        </CardLayout>
-                    )}
-                </CardsLayout>
+                
+                
             </Slider>
             );
         };

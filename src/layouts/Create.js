@@ -50,6 +50,11 @@ const AppLayout = styled.div`
     background-color: #25262B; 
     height: 100vh;
     font-family: sans-serif;
+    text-decoration: none;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
 `;
 
 const Questionlayout = styled.div`
@@ -92,7 +97,7 @@ const Cancel = styled.div`
 
 `;
 
-const Done = styled(Link)`
+const Done = styled.div`
     font-size: 1em;
     margin: 5px;
     padding: 5px;
@@ -100,11 +105,7 @@ const Done = styled(Link)`
     position: absolute;
     color: palevioletred;
     font-weight: bold;
-    text-decoration: none;
-
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
+    
 `;
 
 
@@ -130,19 +131,34 @@ const Create = props => {
         props.history.goBack();
     }
 
+    const resetContext = () => {
+        setDetails( {
+            AlexaCode: '#'+Math.floor(Math.random()*90000),
+            Title: '...',
+            Category: 'Entertainment',
+            SubCategory: '...',
+            Visibility: 'Public',
+            Questions: [],
+        } )
+    }
+
     const save = () => {
         console.log(vadidateQuestions() )
         if( vadidateQuestions() == false )
         {
             alert( "Please add atleast 1 question" )
         }else {
-        post();
+        details.Questions.map((question) => {
+            post(question);
+        });
         props.history.goBack();
         }
     }
 
 
-    const post = async () => {
+    const post = async (question) => {
+        //resetContext();
+
         fetch( apiTransactions, {
           method: 'post',
           headers: {
@@ -151,34 +167,22 @@ const Create = props => {
         },
         body: JSON.stringify(
         {
-          gameID:  details.Title.toLowerCase(),
-          questionId: details.Questions[0].questionId.toLowerCase(),
-          answer1: details.Questions[0].choiceA.toLowerCase(),
-          answer2: details.Questions[0].choiceB.toLowerCase(),
-          answer3: details.Questions[0].choiceC.toLowerCase(),
-          answer4: details.Questions[0].choiceD.toLowerCase(),
-          answer:  details.Questions[0].answer.toLowerCase(),
-          prompt:  details.Questions[0].question.toLowerCase(),
+          username:  details.Title.toLowerCase(),
+          questionId: question.questionId.toLowerCase(),
+          answer1: question.choiceA.toLowerCase(),
+          answer2: question.choiceB.toLowerCase(),
+          answer3: question.choiceC.toLowerCase(),
+          answer4: question.choiceD.toLowerCase(),
+          answer:  question.answer.toLowerCase(),
+          prompt:  question.question.toLowerCase(),
           requestType: 'update',
           type: 'multipleChoice'    
        })
         }).then(res=>res.json())
         .then(res => console.log(res));
+      
       }
     
-    const resetContext = () => {
-        setDetails( 
-            {
-                AlexaCode: '#'+Math.floor(Math.random()*90000),
-                Title: '...',
-                Category: 'Entertainment',
-                SubCategory: '...',
-                Visibility: 'Public',
-                Questions: [],
-            }
-        )
-    }
-
     return(
     <Background>
         <MyNavTest>Alexa's Social Qs</MyNavTest>
