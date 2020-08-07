@@ -23,6 +23,7 @@ const Text = styled.div`
     &:hover {
         background: #95989A; // <Thing> when hovered
     }
+    cursor: pointer;
 `;
 //border-radius: 0px 25px 25px 0px;
 
