@@ -10,30 +10,25 @@ const AppLayout = styled.div`
     background-color: #25262B; 
     display: flex;
     flex-wrap: nowrap;
-    overflow-x:scroll;
+    overflow-x: scroll;
+    margin: 0 auto;
+    max-width: 60vw;
+    height: fit-content;
     div:nth-child(${props =>props.focusIndex}) {
         color: palevioletred;
-        // font-weight: bold;
     } 
-    // ${media.lessThan("medium")`
-    //     justify-content: flex-start;
-    // `}
+    ${media.lessThan("medium")`
+        max-width: 80vw;
+    `}
     // ${media.greaterThan("medium")`
     //     justify-content: flex-start;
     // `}
     &::-webkit-scrollbar {
-        // width: 0px;
-        display: none;
+        width: 0px;
      }
      justify-content: space-between;
-     margin: 0 auto;
      user-select: none;
-    //  padding-left:20px;
-    //  padding-right:20px;
-    //  margin-left:20px; 
-    //  margin-right:20px; 
      border-bottom: 1px solid white;
-     
 `;
  //
 const Text = styled.div`
@@ -42,7 +37,7 @@ const Text = styled.div`
     color: white;
     font-family: Arial; 
     text-align: center;
-    padding: 20px;
+    padding: 0 20px;
     color: "white";
     cursor: pointer;
 `;
