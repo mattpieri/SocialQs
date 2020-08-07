@@ -13,19 +13,25 @@ const AppLayout = styled.div`
     overflow-x:scroll;
     div:nth-child(${props =>props.focusIndex}) {
         color: palevioletred;
-        font-weight: bold;
+        // font-weight: bold;
     } 
-    ${media.lessThan("medium")`
-        justify-content: flex-start;
-    `}
-    ${media.greaterThan("medium")`
-        justify-content: center;
-    `}
+    // ${media.lessThan("medium")`
+    //     justify-content: flex-start;
+    // `}
+    // ${media.greaterThan("medium")`
+    //     justify-content: flex-start;
+    // `}
     &::-webkit-scrollbar {
-        width: 0px;
+        // width: 0px;
+        display: none;
      }
-     margin-left:20px; 
-     margin-right:20px; 
+     justify-content: space-between;
+     margin: 0 auto;
+     user-select: none;
+    //  padding-left:20px;
+    //  padding-right:20px;
+    //  margin-left:20px; 
+    //  margin-right:20px; 
      border-bottom: 1px solid white;
      
 `;
@@ -38,6 +44,7 @@ const Text = styled.div`
     text-align: center;
     padding: 20px;
     color: "white";
+    cursor: pointer;
 `;
 
 const Button = styled.button`
@@ -102,9 +109,9 @@ export default class CategoryWheel extends React.Component {
         this.setState({focusIndex:focusIndex})
     }
 
-    changeFocus(focusIndex){
-        this.setState({focusIndex:focusIndex})
-    }
+    // changeFocus(focusIndex){
+    //     this.setState({focusIndex:focusIndex})
+    // }
     
     handleChange(e){
         const value = e.target.id;
