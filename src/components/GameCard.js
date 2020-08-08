@@ -12,8 +12,8 @@ const CardsLayout = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     background:#25262B; 
-    height:2000px;
-    
+    max-width: 1500px;
+    margin: 0 auto;
 `;
 
 const CardLayoutLink = styled(Link)`
@@ -101,6 +101,9 @@ const TopImage = styled.div`
     background-color: blue;
     background-image: url(${myImage});
     display:grid;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 `;
 //background-image: url(${myImage});
 

@@ -73,7 +73,7 @@
   .MenuModal {
     position: absolute;
     height: 100vh;
-    width: 50%;
+    width: 250px;
     background-color: #353A3E;
     outline: none;
     -webkit-animation-name: zoomX;
