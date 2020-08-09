@@ -160,7 +160,7 @@ export default class GameCard extends React.Component {
         this.state = {
             OverScrollIndex: 0,
             Categoies: 3,
-            IndexGamesMap: { "asdf": "asdf"},
+            IndexGamesMap: {},
         };
         this.handleCategoryChange  = this.handleCategoryChange.bind(this);
         this.setGames              = this.setGames.bind(this);
@@ -194,7 +194,7 @@ export default class GameCard extends React.Component {
         });
 
     }
-      
+       
     handleChange(e){
         
         const value = e.target.id;
@@ -204,6 +204,9 @@ export default class GameCard extends React.Component {
 
     handleCategoryChange( cat, subcats ){
         this.setState({Categoies:subcats.length})
+        let localIndexGamesMap = {}; //Intialize Games again
+        subcats.map( ( subcat, index )  => { localIndexGamesMap[index] = []})
+        this.setState({IndexGamesMap:localIndexGamesMap})
         subcats.map( ( subcat, index )  => this.setGames( cat, subcat, index ))
     }
 
@@ -270,9 +273,10 @@ export default class GameCard extends React.Component {
         Object.entries(dictionary).forEach(([k,v]) => {
             allGames[k]=v;
         })
-        console.log(allGames)
+        //console.log("ALL GAMES");
+        //console.log(allGames);
 
-        //[1,2,3].forEach((n)=> n); => returns undefined
+        //[1,2,3].forEach((n)=> n ); => returns undefined
         //[1,2,3].map((n)=> n); => returns [1,2,3]
         return(
             <Slider ref="elementToFire" ref={this.scrollerRef} id={this.state.Categoies} >
