@@ -11,12 +11,6 @@ import Media from "react-media";
 import ReactModal from "react-modal";
 import styles from './styles/Modal.css'; 
 
-
-const Space = styled.div` 
-  grid-area: space;
-  background: #25262B;
-  
-`; 
 const GridLayout = styled.div`
   height: 100vh;
   display: grid;
@@ -24,22 +18,22 @@ const GridLayout = styled.div`
   ${media.lessThan("medium")`
     /* screen width is less than 768px (medium) */
     grid-template-areas:
-      "nav nav"
-      "channelheader channelheader"
-      "categorywheel categorywheel"
-      "cards cards";
-    grid-template-rows:  1fr 4fr 100px 15fr;
-    grid-template-columns: 1fr 1000fr;
+      "nav"
+      "channelheader"
+      "categorywheel"
+      "cards";
+    grid-template-rows:  auto auto auto auto;
+    grid-template-columns: auto;
   `}
   ${media.greaterThan("medium")`
     /* screen width is greater than 1170px (large) */
     grid-template-areas:
-      "nav nav nav"
-      "channels channelheader space"
-      "channels categorywheel space"
-      "channels cards space";
-    grid-template-rows:  1fr 4fr 100px 15fr;
-    grid-template-columns: 1fr 4fr 1fr;
+      "nav nav"
+      "channels channelheader"
+      "channels categorywheel"
+      "channels cards";
+    grid-template-rows:  1fr auto 100px 15fr;
+    grid-template-columns: 250px auto;
   `}
 `;
 ///change background color of gridlayout for debugging
@@ -163,7 +157,6 @@ export default class ViewTeam extends React.Component {
           <CategoryWheel updateScrollIndex={this.changeScrollIndex.bind(this)} Channel={this.state.Channel}></CategoryWheel>
           <GameCard focusIndex={this.state.ScrollIndex} category={this.state.Channel} Games={this.state.Games} update={this.changeGame}>
           </GameCard>
-          <Space></Space>
         </GridLayout>
       </div>
       

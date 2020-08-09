@@ -28,7 +28,7 @@ const AppLayout = styled.div`
      }
      justify-content: space-between;
      user-select: none;
-     border-bottom: 1px solid white;
+     border-bottom: 3px solid rgba(255,255,255,.1);
 `;
  //
 const Text = styled.div`

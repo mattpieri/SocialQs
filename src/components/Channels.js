@@ -4,24 +4,24 @@ import React from 'react'
 import styled from 'styled-components'
 import triviaChannels from '../configs/triviaChannels.json'
 const ChannelWrapper = styled.div`
-grid-area: channels;
-color: white;
-font-size: 2em;
-display: flex;
-flex-wrap: nowrap;
-justify-content: flex-start;
-flex-direction: column;
+    grid-area: channels;
+    color: white;
+    font-size: 2em;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-top: 32px;
 `;
 
 const Text = styled.div`
     font-size: 20px;
     color: white;
     font-family: Arial;
-    padding: 7px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding: 5px 30px;
     &:hover {
         background: #95989A; // <Thing> when hovered
+        border-radius: 0 20px 20px 0;
     }
     cursor: pointer;
 `;

@@ -1,6 +1,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
+import media from "styled-media-query";
 
 const Logo = styled.div`
     font-size: 2em;
@@ -22,6 +23,9 @@ const AppLayout = styled.div`
     grid-column:2;
     padding: 2em;
     background-color: #25262B; 
+    ${media.lessThan("medium")`
+        grid-column: 1/2;
+  `}
 `;
 //    grid-row:2;
 //grid-column:2;
