@@ -160,7 +160,7 @@ export default class GameCard extends React.Component {
         this.state = {
             OverScrollIndex: 0,
             Categoies: 3,
-            IndexGamesMap: {},
+            IndexGamesMap: { "asdf": "asdf"},
         };
         this.handleCategoryChange  = this.handleCategoryChange.bind(this);
         this.setGames              = this.setGames.bind(this);
@@ -188,9 +188,9 @@ export default class GameCard extends React.Component {
             let localIndexGamesMap = this.state.IndexGamesMap;
             localIndexGamesMap[index] = res;
             this.setState({IndexGamesMap:localIndexGamesMap})
-            console.log(cat)
-            console.log(sub)
-            console.log(localIndexGamesMap)
+            //console.log(cat)
+            //console.log(sub)
+            //console.log(localIndexGamesMap)
         });
 
     }
@@ -260,12 +260,26 @@ export default class GameCard extends React.Component {
         }
         
     }
-
+    //            {/*Object.keys(this.state.IndexGamesMap).forEach(function(key){*/
+    
+    
+    
     render() {
+        var dictionary = this.state.IndexGamesMap; 
+        var allGames = [];
+        Object.entries(dictionary).forEach(([k,v]) => {
+            allGames[k]=v;
+        })
+        console.log(allGames)
+
+        //[1,2,3].forEach((n)=> n); => returns undefined
+        //[1,2,3].map((n)=> n); => returns [1,2,3]
         return(
             <Slider ref="elementToFire" ref={this.scrollerRef} id={this.state.Categoies} >
+                { allGames.map( (subGames) => {
+                    return(
                 <CardsLayout >
-                    <CardLayoutLink to="/create" id={"addgame"}>
+                <CardLayoutLink to="/create" id={"addgame"}>
                             <TopImage id={"addgame"}>
                             <Top id={"addgame"}>
                                 <Space id={"addgame"}></Space>
@@ -280,33 +294,31 @@ export default class GameCard extends React.Component {
                             </TopImage>
                             <Botton id={"addgame"}>Click to Create Trivia</Botton>
                     </CardLayoutLink>
-                    {/*console.log("HELLLLLLOWW")*/}
-                    {/*console.log(this.props.Games)*/}
-                    {this.props.Games.map((game)=> 
-                        
-                        <CardLayout id={game} onClick={this.handleChange.bind(this)}>
-                            <TopImage id={game}>
-                            <Top id={game}>
-                                <Space id={game}></Space>
-                                <CardTitle id={game}>{game.SK}</CardTitle>
-                                <CardDetailsLayout id={game}>
-                                    <CardDetail id={game}>Plays {game.ViewCount}</CardDetail>
-                                    <CardDetail id={game}>Q's {game.Questions.length}</CardDetail>
-                                    <CardDetail id={game}>Likes {game.Likes}</CardDetail>
-                                    <CardDetail id={game}>{game.AlexaCode}</CardDetail>
-                                </CardDetailsLayout >
-                            </Top>
-                            </TopImage>
-                            <Botton id={game}></Botton>
-                        </CardLayout>
-                    )}
+                { subGames.map( (game) => {
+                    return(
+                    <CardLayout id={game} onClick={this.handleChange.bind(this)}>
+                        <TopImage id={game}>
+                        <Top id={game}>
+                            <Space id={game}></Space>
+                            <CardTitle id={game}>{game.SK}</CardTitle>
+                            <CardDetailsLayout id={game}>
+                                <CardDetail id={game}>Plays {game.ViewCount}</CardDetail>
+                                <CardDetail id={game}>Q's {game.Questions.length}</CardDetail>
+                                <CardDetail id={game}>Likes {game.Likes}</CardDetail>
+                                <CardDetail id={game}>{game.AlexaCode}</CardDetail>
+                            </CardDetailsLayout >
+                        </Top>
+                        </TopImage>
+                        <Botton id={game}></Botton>
+                    </CardLayout>
+                    );
+                })}
                 </CardsLayout>
-                
+                )})}
                 
             </Slider>
             );
         };
 };
 
-//{this.props.name.map(Cards)}
 
